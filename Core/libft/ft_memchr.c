@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 16:27:34 by cgray             #+#    #+#             */
-/*   Updated: 2023/10/20 12:33:25 by cgray            ###   ########.fr       */
+/*   Created: 2023/10/20 12:05:58 by cgray             #+#    #+#             */
+/*   Updated: 2023/10/20 12:32:36 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-/*set variable to str
-iteratate thru add_v for input len
-set variable add_v to value
-increment variable
-return modified string
+/* similar to strnstr, but does not stop after a \0 value
+and only searches for a character in big
+returns pointer to first found little in big
 */
-
-void	*ft_memset(void *str, int value, size_t len)
+void	*ft_memchr(const void *big, int little, size_t len)
 {
-	unsigned char	*add_v;
+	char	*found;
 
-	add_v = (unsigned char *)str;
+	found = (char *)big;
 	while (len-- > 0)
 	{
-		*add_v = (unsigned char)value;
-		add_v++;
+		if (*found != (char)little)
+			found++;
+		else
+			return (found);
 	}
-	return (str);
+	return (0);
 }

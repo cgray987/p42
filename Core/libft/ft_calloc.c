@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 16:27:34 by cgray             #+#    #+#             */
-/*   Updated: 2023/10/20 12:33:25 by cgray            ###   ########.fr       */
+/*   Created: 2023/10/20 14:41:05 by cgray             #+#    #+#             */
+/*   Updated: 2023/10/20 15:37:22 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-/*set variable to str
-iteratate thru add_v for input len
-set variable add_v to value
-increment variable
-return modified string
+/*Allocates memory from count*size and returns ptr to it
+setting the memory to zero.
 */
-
-void	*ft_memset(void *str, int value, size_t len)
+void	*ft_calloc(size_t count, size_t size)
 {
-	unsigned char	*add_v;
+	void	*ptr;
 
-	add_v = (unsigned char *)str;
-	while (len-- > 0)
-	{
-		*add_v = (unsigned char)value;
-		add_v++;
-	}
-	return (str);
+	ptr = malloc(count * size * sizeof(size_t));
+	if (!ptr)
+		return (ptr);
+	ft_bzero(ptr, count * size);
+	return (ptr);
 }

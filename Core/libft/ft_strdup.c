@@ -1,33 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 16:27:34 by cgray             #+#    #+#             */
-/*   Updated: 2023/10/20 12:33:25 by cgray            ###   ########.fr       */
+/*   Created: 2023/10/20 14:07:15 by cgray             #+#    #+#             */
+/*   Updated: 2023/10/20 14:47:16 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-/*set variable to str
-iteratate thru add_v for input len
-set variable add_v to value
-increment variable
-return modified string
+/*duplicate string into pointer
+use malloc to determine if mem is available,
+otherwise return null. also return null if s
+is empty
 */
-
-void	*ft_memset(void *str, int value, size_t len)
+char	*ft_strdup(const char *s)
 {
-	unsigned char	*add_v;
+	char	*p;
+	int		len;
+	int		i;
 
-	add_v = (unsigned char *)str;
-	while (len-- > 0)
+	len = ft_strlen(s);
+	p = (char *)malloc(sizeof(char) * (len + 1));
+	if (!p || !s)
+		return ('\0');
+	i = 0;
+	while (s[i] != '\0')
 	{
-		*add_v = (unsigned char)value;
-		add_v++;
+		p[i] = s[i];
+		i++;
 	}
-	return (str);
+	p[i] = '\0';
+	return (p);
 }

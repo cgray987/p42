@@ -1,33 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 16:27:34 by cgray             #+#    #+#             */
-/*   Updated: 2023/10/20 12:33:25 by cgray            ###   ########.fr       */
+/*   Created: 2023/10/20 12:23:13 by cgray             #+#    #+#             */
+/*   Updated: 2023/10/20 12:36:45 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-/*set variable to str
-iteratate thru add_v for input len
-set variable add_v to value
-increment variable
-return modified string
+/* returns s1-s2 for the first n characters
+obv, if they're equal, return 0.
 */
-
-void	*ft_memset(void *str, int value, size_t len)
+int	ft_memcmp(const void *s1, const void *s2, size_t len)
 {
-	unsigned char	*add_v;
+	unsigned char	*p1;
+	unsigned char	*p2;
 
-	add_v = (unsigned char *)str;
+	p1 = (unsigned char *)s1;
+	p2 = (unsigned char *)s2;
 	while (len-- > 0)
 	{
-		*add_v = (unsigned char)value;
-		add_v++;
+		if (*p1 != *p2)
+			return (*p1 - *p2);
+		else
+		{
+			p1++;
+			p2++;
+		}
 	}
-	return (str);
+	return (0);
 }

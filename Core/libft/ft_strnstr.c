@@ -1,33 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 16:27:34 by cgray             #+#    #+#             */
-/*   Updated: 2023/10/20 12:33:25 by cgray            ###   ########.fr       */
+/*   Created: 2023/10/20 10:33:55 by cgray             #+#    #+#             */
+/*   Updated: 2023/10/20 15:28:08 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-/*set variable to str
-iteratate thru add_v for input len
-set variable add_v to value
-increment variable
-return modified string
+/* i is big index; j is little index
+loop thru big, loop thru little inside,
+search for little in big
 */
-
-void	*ft_memset(void *str, int value, size_t len)
+char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
-	unsigned char	*add_v;
+	int		i;
+	char	*found;
 
-	add_v = (unsigned char *)str;
-	while (len-- > 0)
+	i = 0;
+	found = (char *)big;
+	if (*little == '\0')
+		return (found);
+	while (*found != '\0')
 	{
-		*add_v = (unsigned char)value;
-		add_v++;
+		i = 0;
+		while (little[i] == *(found + i) && (size_t)i < len)
+			i++;
+		if (little[i] == '\0')
+			return (found);
+		found++;
 	}
-	return (str);
+	return ('\0');
 }
