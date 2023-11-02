@@ -6,12 +6,13 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:59:10 by cgray             #+#    #+#             */
-/*   Updated: 2023/10/16 16:17:56 by cgray            ###   ########.fr       */
+/*   Updated: 2023/11/02 14:04:27 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
+/*returns length of given string 
+*/
 size_t	ft_strlen(const char *c)
 {
 	int	len;

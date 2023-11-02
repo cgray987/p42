@@ -6,22 +6,16 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 16:09:31 by cgray             #+#    #+#             */
-/*   Updated: 2023/10/16 16:19:41 by cgray            ###   ########.fr       */
+/*   Updated: 2023/11/02 14:08:39 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
+/*Returns int 'c' capitalized if alphabet
+*/
 int	ft_toupper(int c)
 {
 	if (c >= 'a' && c <= 'z')
 		c -= 32;
 	return (c);
 }
-
-// #include <stdio.h>
-// int	main(void)
-// {
-// 	char s = 'a';
-// 	printf("%c\n", ft_toupper(s));
-// }

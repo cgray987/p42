@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/20 12:05:58 by cgray             #+#    #+#             */
-/*   Updated: 2023/11/02 13:57:56 by cgray            ###   ########.fr       */
+/*   Created: 2023/10/26 11:44:42 by cgray             #+#    #+#             */
+/*   Updated: 2023/11/02 14:02:22 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-/* Searches for character 'little' in 'big'
-returns pointer to first found 'little' in 'big'
-does not stop after a \0 value
+/*outputs given int 'n' to given file descriptor 'fd'
 */
-void	*ft_memchr(const void *big, int little, size_t len)
+void	ft_putnbr_fd(int n, int fd)
 {
-	char	*found;
-
-	found = (char *)big;
-	while (len-- > 0)
+	if (n < 0)
 	{
-		if (*found != (char)little)
-			found++;
-		else
-			return (found);
+		ft_putchar_fd('-', fd);
+		if (n == -2147483648)
+		{
+			ft_putchar_fd('2', fd);
+			ft_putnbr_fd(147483648, fd);
+			return ;
+		}
+		n = -n;
 	}
-	return (0);
+	if (n > 9)
+		ft_putnbr_fd(n / 10, fd);
+	ft_putchar_fd(n % 10 + '0', fd);
 }

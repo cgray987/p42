@@ -6,12 +6,14 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:18:14 by cgray             #+#    #+#             */
-/*   Updated: 2023/10/16 15:19:08 by cgray            ###   ########.fr       */
+/*   Updated: 2023/11/02 13:55:02 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
+/*Checks if 'c' is ascii character
+1 if true, 0 if not
+*/
 int	ft_isascii(int c)
 {
 	if ((c >= 0 && c <= 127))

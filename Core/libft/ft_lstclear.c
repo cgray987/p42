@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/20 12:05:58 by cgray             #+#    #+#             */
-/*   Updated: 2023/11/02 13:57:56 by cgray            ###   ########.fr       */
+/*   Created: 2023/10/26 15:54:03 by cgray             #+#    #+#             */
+/*   Updated: 2023/10/26 15:58:38 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-/* Searches for character 'little' in 'big'
-returns pointer to first found 'little' in 'big'
-does not stop after a \0 value
+/*Deletes and frees given node + all successors using
+given 'del' function and free(3).
+The pointer to the list 'lst' is set to NULL
 */
-void	*ft_memchr(const void *big, int little, size_t len)
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	char	*found;
+	t_list	*temp;
 
-	found = (char *)big;
-	while (len-- > 0)
+	if (!*lst)
+		return ;
+	while (*lst)
 	{
-		if (*found != (char)little)
-			found++;
-		else
-			return (found);
+		temp = (*lst)->next;
+		ft_lstdelone(*lst, del);
+		*lst = temp;
 	}
-	return (0);
+	*lst = NULL;
 }

@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/20 12:05:58 by cgray             #+#    #+#             */
-/*   Updated: 2023/11/02 13:57:56 by cgray            ###   ########.fr       */
+/*   Created: 2023/10/26 11:33:43 by cgray             #+#    #+#             */
+/*   Updated: 2023/10/26 11:38:32 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-/* Searches for character 'little' in 'big'
-returns pointer to first found 'little' in 'big'
-does not stop after a \0 value
+/*outputs given string 's' to given filedescriptor 'fd'
 */
-void	*ft_memchr(const void *big, int little, size_t len)
+void	ft_putstr_fd(char *s, int fd)
 {
-	char	*found;
-
-	found = (char *)big;
-	while (len-- > 0)
+	if (!s)
+		return ;
+	while (*s != '\0')
 	{
-		if (*found != (char)little)
-			found++;
-		else
-			return (found);
+		ft_putchar_fd(*s, fd);
+		s++;
 	}
-	return (0);
 }

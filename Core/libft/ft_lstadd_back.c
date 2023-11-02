@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/20 12:05:58 by cgray             #+#    #+#             */
-/*   Updated: 2023/11/02 13:57:56 by cgray            ###   ########.fr       */
+/*   Created: 2023/10/26 15:42:12 by cgray             #+#    #+#             */
+/*   Updated: 2023/10/26 15:44:43 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-/* Searches for character 'little' in 'big'
-returns pointer to first found 'little' in 'big'
-does not stop after a \0 value
+/*Adds the node 'new' at the end of the list 'lst'
 */
-void	*ft_memchr(const void *big, int little, size_t len)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	char	*found;
+	t_list	*temp;
 
-	found = (char *)big;
-	while (len-- > 0)
+	if (!new)
+		return ;
+	if (!*lst)
 	{
-		if (*found != (char)little)
-			found++;
-		else
-			return (found);
+		*lst = new;
+		return ;
 	}
-	return (0);
+	temp = ft_lstlast(*lst);
+	temp->next = new;
 }

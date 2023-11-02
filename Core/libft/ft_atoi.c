@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 12:45:34 by cgray             #+#    #+#             */
-/*   Updated: 2023/10/20 12:58:38 by cgray            ###   ########.fr       */
+/*   Updated: 2023/10/30 18:02:19 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ int	ft_atoi(const char *string)
 	neg = 1;
 	while (*string == ' ' || (*string >= 9 && *string <= 13))
 		string++;
-	while (*string == '-' || *string == '+')
+	if (*string == '-' || *string == '+')
 	{
 		if (*string == '-')
-			neg *= -1;
+			neg = -1;
 		string++;
 	}
 	while (*string >= '0' && *string <= '9')

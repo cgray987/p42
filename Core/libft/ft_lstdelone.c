@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/20 12:05:58 by cgray             #+#    #+#             */
-/*   Updated: 2023/11/02 13:57:56 by cgray            ###   ########.fr       */
+/*   Created: 2023/10/26 15:45:29 by cgray             #+#    #+#             */
+/*   Updated: 2023/10/26 15:53:05 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-/* Searches for character 'little' in 'big'
-returns pointer to first found 'little' in 'big'
-does not stop after a \0 value
+/*Takes a node and free's the mem of the node's content
+using given 'del' function and free the node.
+memory of 'next' is not freed.
 */
-void	*ft_memchr(const void *big, int little, size_t len)
+void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
-	char	*found;
-
-	found = (char *)big;
-	while (len-- > 0)
-	{
-		if (*found != (char)little)
-			found++;
-		else
-			return (found);
-	}
-	return (0);
+	if (!lst)
+		return ;
+	del(lst->content);
+	free(lst);
 }

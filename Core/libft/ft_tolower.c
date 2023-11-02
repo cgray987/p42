@@ -6,12 +6,13 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 16:19:27 by cgray             #+#    #+#             */
-/*   Updated: 2023/10/16 16:20:08 by cgray            ###   ########.fr       */
+/*   Updated: 2023/11/02 14:08:48 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
+/* Returns int 'c' uncapitalized if alphabet
+*/
 int	ft_tolower(int c)
 {
 	if (c >= 'A' && c <= 'Z')

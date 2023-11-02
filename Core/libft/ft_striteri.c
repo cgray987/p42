@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/20 12:05:58 by cgray             #+#    #+#             */
-/*   Updated: 2023/11/02 13:57:56 by cgray            ###   ########.fr       */
+/*   Created: 2023/10/26 11:11:05 by cgray             #+#    #+#             */
+/*   Updated: 2023/10/26 11:20:39 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-/* Searches for character 'little' in 'big'
-returns pointer to first found 'little' in 'big'
-does not stop after a \0 value
+/*applies function 'f' on each character of the string 's', passing
+its index as first arg. Each character is passed by address to 'f' to
+be modified if necessary.
 */
-void	*ft_memchr(const void *big, int little, size_t len)
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
-	char	*found;
+	unsigned int	i;
 
-	found = (char *)big;
-	while (len-- > 0)
+	if (!s || !f)
+		return ;
+	i = 0;
+	while (s[i] != '\0')
 	{
-		if (*found != (char)little)
-			found++;
-		else
-			return (found);
+		f(i, &s[i]);
+		i++;
 	}
-	return (0);
 }

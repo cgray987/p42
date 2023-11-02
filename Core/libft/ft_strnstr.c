@@ -6,32 +6,45 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 10:33:55 by cgray             #+#    #+#             */
-/*   Updated: 2023/10/20 15:28:08 by cgray            ###   ########.fr       */
+/*   Updated: 2023/11/02 11:45:26 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-/* i is big index; j is little index
-loop thru big, loop thru little inside,
-search for little in big
+/* locate substring 'little' in string 'big' searching 'len' characters
+i is 'little' index, j is 'big' index
+loop thru big, nested loop thru little
+return string big starting from little inside
 */
 char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
-	int		i;
+	size_t	i;
+	size_t	j;
 	char	*found;
 
 	i = 0;
+	j = 0;
 	found = (char *)big;
 	if (*little == '\0')
 		return (found);
-	while (*found != '\0')
+	while (*found != '\0' && len > 0)
 	{
 		i = 0;
-		while (little[i] == *(found + i) && (size_t)i < len)
+		while (little[i] == *(found + i) && i < len)
 			i++;
 		if (little[i] == '\0')
 			return (found);
 		found++;
+		len--;
 	}
-	return ('\0');
+	return (NULL);
 }
+// #include <stdio.h>
+// #include <bsd/string.h>
+// int	main(void)
+// {
+// 	char str[] = "aaabcabcd";
+
+// 	printf("ft_strnstr:\t%s\n", ft_strnstr(str, "abcd", 9));
+// 	printf("strnstr:\t%s\n", strnstr(str, "abcd", 9));
+// }
