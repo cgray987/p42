@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 15:49:39 by cgray             #+#    #+#             */
-/*   Updated: 2023/10/30 18:26:50 by cgray            ###   ########.fr       */
+/*   Updated: 2023/11/07 14:59:54 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_itoa(int n)
 	char	*str;
 
 	if (n == -2147483648)
-		return ("-2147483648");
+		return (ft_strdup("-2147483648"));
 	digit = countdigits(n);
 	str = (char *)malloc(sizeof(char) * (digit + 1));
 	if (!str)

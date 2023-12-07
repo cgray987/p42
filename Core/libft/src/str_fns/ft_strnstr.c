@@ -6,24 +6,22 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 10:33:55 by cgray             #+#    #+#             */
-/*   Updated: 2023/11/02 11:45:26 by cgray            ###   ########.fr       */
+/*   Updated: 2023/12/05 17:37:39 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 /* locate substring 'little' in string 'big' searching 'len' characters
-i is 'little' index, j is 'big' index
+i is 'little' index
 loop thru big, nested loop thru little
 return string big starting from little inside
 */
 char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
 	size_t	i;
-	size_t	j;
 	char	*found;
 
 	i = 0;
-	j = 0;
 	found = (char *)big;
 	if (*little == '\0')
 		return (found);

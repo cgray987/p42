@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 14:41:05 by cgray             #+#    #+#             */
-/*   Updated: 2023/11/02 13:47:26 by cgray            ###   ########.fr       */
+/*   Updated: 2023/11/07 15:13:27 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,15 @@ void	*ft_calloc(size_t count, size_t size)
 	void	*ptr;
 	size_t	max;
 
-	if (count <= 0 || size <= 0)
-		return (NULL);
+	if (count == 0 || size == 0)
+	{
+		ptr = malloc(0);
+		return (ptr);
+	}
 	max = count * size;
 	if (max / count != size)
 		return (NULL);
-	ptr = malloc(max * sizeof(size_t));
+	ptr = malloc(max);
 	if (!ptr)
 		return (NULL);
 	ft_bzero(ptr, max);

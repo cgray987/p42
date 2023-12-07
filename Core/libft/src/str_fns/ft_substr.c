@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:48:06 by cgray             #+#    #+#             */
-/*   Updated: 2023/11/02 13:34:55 by cgray            ###   ########.fr       */
+/*   Updated: 2023/11/15 15:42:56 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	size_t	j;
 
 	if (!s)
-		return (0);
+		return (ft_strdup(""));
 	if (ft_strlen(s) < start)
-		len = 0;
+		return (ft_strdup(""));
 	if (ft_strlen(s + start) < len)
 		len = ft_strlen(s + start);
 	substring = (char *)malloc((len + 1));
@@ -45,7 +45,9 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 // {
 // 	// char	str[] = "lorem ipsum dolor sit amet";
 // 	char	*strsub;
-
-// 	printf("ft_substr:\t%s\n", strsub = ft_substr("tripouille", 100, 1));
-// 	printf("strcmp:\t%d\n", strcmp(strsub, "\0"));
+// 	strsub = ft_substr("tripouille", 100, 1);
+// 	printf("ft_substr:\t%s\n", strsub);
+// 	printf("strcmp:\t%d\n", strcmp(strsub, ""));
+// 	free(strsub);
+// 	return (0);
 // }

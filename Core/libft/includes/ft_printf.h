@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/18 10:19:35 by cgray             #+#    #+#             */
-/*   Updated: 2023/11/02 13:53:15 by cgray            ###   ########.fr       */
+/*   Created: 2023/11/07 17:16:41 by cgray             #+#    #+#             */
+/*   Updated: 2023/12/05 17:32:05 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-/*
-memset 'str' to 0 for 'len' characters in place
-does not return the string
-note that when setting ANY value to 0 in a string
-results in an empty string
-*/
-void	*ft_bzero(void *str, size_t len)
-{
-	unsigned char	*add_v;
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
-	add_v = (unsigned char *)str;
-	while (len-- > 0)
-	{
-		*add_v = '\0';
-		add_v++;
-	}
-	return (0);
-}
+# include <stdarg.h>
+# include <unistd.h>
+
+int		ft_printf(const char *format, ...);
+int		ft_print_char(int c);
+int		ft_print_string(char *str);
+int		ft_print_digit(long nbr, int base);
+int		ft_print_upper_digit(long nbr, int base);
+int		ft_print_ptr(unsigned long long ptr);
+
+#endif
