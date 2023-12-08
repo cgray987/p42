@@ -4,9 +4,7 @@ int nbr_in_base(char c, int base)
   if (base <= 10)
     return (c >= '0' && c <= '9');
   else
-    return ((c >= '0' && c <= '9')
-      || (c >= 'a' && c <= 'a' + base - 10)
-      || (c >= 'A' && c <= 'A' + base - 10));
+    return ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'a' + base - 10) || (c >= 'A' && c <= 'A' + base - 10));
 }
 
 int ft_atoi_base(const char *str, int base)
@@ -36,10 +34,10 @@ int ft_atoi_base(const char *str, int base)
 #include <stdio.h>
 #include <stdlib.h>
 
-int		main(void)
+int main(void)
 {
-	printf("%d\n", ft_atoi_base("011", atoi("2")));
-	printf("%d\n", ft_atoi_base("16", atoi("8")));
-	printf("%d\n", ft_atoi_base("123", atoi("10")));
-	printf("%d\n", ft_atoi_base("FF", atoi("16")));
+  printf("%d\n", ft_atoi_base("011", atoi("2")));
+  printf("%d\n", ft_atoi_base("16", atoi("8")));
+  printf("%d\n", ft_atoi_base("123", atoi("10")));
+  printf("%d\n", ft_atoi_base("FF", atoi("16")));
 }
