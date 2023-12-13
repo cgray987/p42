@@ -5,7 +5,7 @@ void	rcapitalize_str(char *str)
 {
 	while (*str != '\0')
 	{
-		while (*str != '\0' && (*str == ' ' || *str == '\t'))
+		while (*str != '\0' && (*str == ' ' || *str == '\t')) //print first spaces
 		{
 			write(1, str, 1);
 			++str;
@@ -13,11 +13,11 @@ void	rcapitalize_str(char *str)
 
 		while (*str != '\0' && *str != ' ' && *str != '\t')
 		{
-			if (*str >= 'a' && *str <= 'z'
+			if (*str >= 'a' && *str <= 'z' // if lower and next char is space, capitalize
 			&& (*(str + 1) == '\0' || *(str + 1) == ' ' || *(str + 1) == '\t'))
 				*str = *str - ('a' - 'A');
 			else if (*str >= 'A' && *str <= 'Z' && *(str + 1) != '\0'
-			&& *(str + 1) != ' ' && *(str + 1) != '\t')
+			&& *(str + 1) != ' ' && *(str + 1) != '\t') //lowercase every other letter
 				*str = *str + ('a' - 'A');
 			write(1, str, 1);
 			++str;

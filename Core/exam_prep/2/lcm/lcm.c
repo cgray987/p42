@@ -7,7 +7,7 @@ unsigned int	lcm(unsigned int a, unsigned int b)
 			n = a;
 	else
 			n = b;
-	while (1)
+	while (1) //increase n until divisible by both
 	{
 		if (n % a == 0 && n % b == 0) // if n is divisible by a and b
 			return (n);

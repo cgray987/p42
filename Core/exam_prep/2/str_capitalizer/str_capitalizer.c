@@ -5,7 +5,7 @@ void	capitalize_str(char *str)
 {
 	while (*str)
 	{
-		while (*str && (*str == ' ' || *str == '\t')) // skip first spaces in str
+		while (*str && (*str == ' ' || *str == '\t')) // print first spaces in str
 		{
 			write(1, str, 1);
 			++str;

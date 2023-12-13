@@ -21,7 +21,7 @@ int j = 0;
 
   while (s1[i])
   {
-    if (old_num(s1, i, s1[i]))
+    if (old_num(s1, i, s1[i])) //hasn't been repeated so far in s1
     {
       write(1, &s1[i], 1);
     }
@@ -31,6 +31,7 @@ int j = 0;
   while (s2[j])
   {
     if (old_num(s1, i, s2[j]) && old_num(s2, j, s2[j]))
+    //s2 doesn't appear in s1 && hasn't been repeated in s2
     {
       write(1, &s2[j], 1);
     }
