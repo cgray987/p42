@@ -15,9 +15,9 @@ void	print_bits(unsigned char octet)
 	}
 }
 
-// int main(void)
-// {
-// 	unsigned char i = 2;
+int main(void)
+{
+	unsigned char i = 128;
 
-// 	print_bits(i);
-// }
+	print_bits(i);
+}
