@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 14:59:04 by cgray             #+#    #+#             */
-/*   Updated: 2023/12/06 14:06:02 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/05 17:25:21 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,17 @@ typedef struct s_list
 }						t_list;
 
 int						ft_atoi(const char *string);
+int						ft_abs(int n);
 void					*ft_bzero(void *str, size_t len);
 void					*ft_calloc(size_t count, size_t size);
+int						ft_count_words(char *str, char delin);
 int						ft_isalnum(int c);
 int						ft_isalpha(int c);
 int						ft_isascii(int c);
 int						ft_isdigit(int c);
 int						ft_isprint(int c);
 char					*ft_itoa(int n);
+int						ft_max(int a, int b);
 void					*ft_memchr(const void *big, int little, size_t len);
 int						ft_memcmp(const void *s1, const void *s2, size_t len);
 void					*ft_memcpy(void *dest, const void *src, size_t len);

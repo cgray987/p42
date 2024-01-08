@@ -1,5 +1,5 @@
 NAME		:= fdf
-# CFLAGS		:= -Wextra -Wall -Werror -Wunreachable-code -Ofast
+CFLAGS		:= -Wextra -Wall -Werror -Wunreachable-code -Ofast -g
 CFLAGS		:=
 CC 			:= gcc
 
@@ -15,7 +15,7 @@ INC_LIBMLX	:= -I ./include -I $(LIBMLX_PATH)/include
 INC_LIBFT	:= -I ./libft
 
 SRC_PATH	:= src/
-SRC			:= main.c
+SRC			:= fdf.c read_file.c draw.c
 SRCS		:= $(addprefix $(SRC_PATH), $(SRC))
 
 OBJ_PATH:= obj/

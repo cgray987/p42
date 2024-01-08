@@ -12,15 +12,15 @@ IS_FNS = ft_isalnum ft_isalpha ft_isascii \
 		ft_isdigit ft_isprint
 
 STR_DIR = str_fns/
-STR_FNS = ft_split ft_strchr ft_strdup \
-		ft_striteri ft_strjoin ft_strlcat \
-		ft_strlcpy ft_strlen ft_strmapi \
-		ft_strncmp ft_strnstr ft_strrchr \
-		ft_strtrim ft_substr
+STR_FNS = ft_count_words ft_split ft_strchr \
+		ft_strdup ft_striteri ft_strjoin \
+		ft_strlcat ft_strlcpy ft_strlen \
+		ft_strmapi ft_strncmp ft_strnstr \
+		ft_strrchr ft_strtrim ft_substr
 
 CONV_DIR = convert_fns/
 CONV_FNS = ft_atoi ft_itoa ft_tolower \
-		ft_toupper
+		ft_toupper ft_max ft_abs
 
 PUT_FD_DIR = put_fd_fns/
 PUT_FD_FNS = ft_putchar_fd ft_putendl_fd ft_putnbr_fd \
