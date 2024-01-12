@@ -1,0 +1,27 @@
+
+		FDF
+//----------------//
+
+- init variables to center on screen
+	- load map on init
+	- mlx init
+- error handling
+	-no map
+	-
+- handle resize
+- mouse
+	- click to drag model
+	- click to rotate model
+- rotate model
+	- split axis to control rotation
+	- rotation limits/REPEAT
+- structs
+	- split into components
+- map
+	- handle hex color options
+	- control color based on height
+- menu
+	- add controls
+-norminette
+	- split functions and organize
+
