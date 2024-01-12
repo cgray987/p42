@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:25:29 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/08 16:28:20 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/12 15:29:10 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,24 +49,33 @@
 # include <math.h>
 # include "../lib/mlx/include/MLX42/MLX42.h"
 # include "../lib/libft/includes/libft.h"
+# define WIDTH 1280
+# define HEIGHT 720
 
 
 typedef struct
 {
-	int		width;
-	int		height;
-	int		**z_matrix;
-	int		zoom;
-	int		translate;
-	int		color;
+	int			width;
+	int			height;
+	int			**z_matrix;
+	int			zoom;
+	int			shift_x;
+	int			shift_y;
+	int			translate;
+	int			rotate;
+	int			axis;
+	int			color;
 
-	mlx_t	*mlx_ptr;
+	mlx_t		*mlx_ptr;
 	mlx_image_t	*img_ptr;
 
 }	t_fdf;
 
+
 void	read_file(char *file_name, t_fdf *data);
-void	bresenham(float x0, float y0, float x1, float y1, t_fdf *data); //t_fdf *data
+void	bresenham(float x0, float y0, float x1, float y1, t_fdf *data);
+void	zoom_scroll_hook(double xdelta, double ydelta, t_fdf *data);
+void	key_hook_fdf(mlx_key_data_t keydata, t_fdf *data);
 void	draw(t_fdf *data);
 
 #endif

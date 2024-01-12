@@ -6,13 +6,12 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 11:55:02 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/08 16:40:43 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/12 17:26:36 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#define WIDTH 1024
-#define HEIGHT 1024
+
 // -----------------------------------------------------------------------------
 // mlx_keyfunc *ft_hook(void* param)
 // {
@@ -44,11 +43,15 @@ int	main(int argc, char **argv)
 	read_file(argv[1], data);
 // Gotta error check this stuff
 	data->mlx_ptr = mlx_init(WIDTH, HEIGHT, "FDF", true);
-	data->img_ptr = mlx_new_image(data->mlx_ptr, 1024, 1024);
+	data->img_ptr = mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
 	// mlx_key_hook(data->mlx_ptr, ft_hook, NULL);
 	// bresenham(10, 10, 100, 300, data); // data
-	data->zoom = 15;
+	// data->zoom = 10;
+	// data->shift_x = 300;
+	// data->shift_y = 300;
 	draw(data);
+	mlx_scroll_hook(data->mlx_ptr, &zoom_scroll_hook, data);
+	mlx_key_hook(data->mlx_ptr, &key_hook_fdf, data);
 	mlx_image_to_window(data->mlx_ptr, data->img_ptr, 0, 0);
 	// mlx_loop_hook(data->mlx_ptr, ft_hook, data->mlx_ptr);
 	mlx_loop(data->mlx_ptr);

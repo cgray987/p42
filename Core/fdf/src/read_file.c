@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 14:50:59 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/05 16:34:18 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/12 16:29:14 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ void	read_file(char *file_name, t_fdf *data)
 	data->z_matrix = (int **)malloc(sizeof(int *) * (data->height + 1));
 	i = 0;
 	while (i < data->height)
-		{
-			data->z_matrix[i] = (int *)malloc(sizeof(int) * (data->width + 1));
-			i++;
-		}
+	{
+		data->z_matrix[i] = (int *)malloc(sizeof(int) * (data->width + 1));
+		i++;
+	}
 	i = 0;
 	fd = open(file_name, O_RDONLY, 0);
 	while (i < data->height)
