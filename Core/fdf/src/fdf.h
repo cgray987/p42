@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:25:29 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/12 15:29:10 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/15 17:15:40 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@
 # define HEIGHT 720
 
 
-typedef struct
+typedef struct s_fdf
 {
 	int			width;
 	int			height;
@@ -62,7 +62,9 @@ typedef struct
 	int			shift_x;
 	int			shift_y;
 	int			translate;
-	int			rotate;
+	double			rotate_x;
+	double			rotate_y;
+	double			rotate_z;
 	int			axis;
 	int			color;
 
@@ -70,10 +72,39 @@ typedef struct
 	mlx_image_t	*img_ptr;
 
 }	t_fdf;
+/*
+	{x, y, z, color}
+ */
+typedef struct s_3d_vector
+{
+	double		x;
+	double		y;
+	double		z;
+	uint32_t	color;
+}	t_3d_vector;
+/*
+	i- {x, y, z, color;
+	j-  x, y, z, color;
+	k-  x, y, z, color};
+ */
+typedef struct s_3d_matrix
+{
+	t_3d_vector	i;
+	t_3d_vector	j;
+	t_3d_vector	k;
+}	t_3d_matrix;
+
+typedef struct s_color
+{
+	uint32_t	r;
+	uint32_t	g;
+	uint32_t	b;
+	uint32_t	a;
+}	t_color;
 
 
 void	read_file(char *file_name, t_fdf *data);
-void	bresenham(float x0, float y0, float x1, float y1, t_fdf *data);
+void	bresenham(double x0, double y0, double x1, double y1, t_fdf *data);
 void	zoom_scroll_hook(double xdelta, double ydelta, t_fdf *data);
 void	key_hook_fdf(mlx_key_data_t keydata, t_fdf *data);
 void	draw(t_fdf *data);

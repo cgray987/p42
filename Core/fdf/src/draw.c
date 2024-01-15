@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:48:17 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/12 17:57:59 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/15 17:45:58 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,82 @@ R_z(t) =   {cos(t)	-sin(t)	0
 			0		0		1}
 */
 
-void	iso_proj(float *x, float *y, float *z, float theta, int axis)
+t_3d_vector	multiply_vector_x_matrix(t_3d_vector v, t_3d_matrix m)
 {
+	double	*lv;
+
+	lv = (double [3]){v.x, v.y, v.z};
+	v.x = lv[0] * m.i.x + lv[1] * m.i.y + lv[2] * m.i.z;
+	v.y = lv[0] * m.j.x + lv[1] * m.j.y + lv[2] * m.j.z;
+	v.z = lv[0] * m.k.x + lv[1] * m.k.y + lv[2] * m.k.z;
+	return (v);
+}
+/*returns 3d rotation matrix given rotation angle and the axis to
+rotate about
+ */
+
+double	rad(double deg)
+{
+	return (deg * 3.14 / 180);
+}
+
+t_3d_matrix	rotation_matrix(double deg, char axis)
+{
+	if (axis == 'x')
+		return ((t_3d_matrix){
+			(t_3d_vector){1, 0, 0, 0},
+			(t_3d_vector){0, cos(deg), -sin(deg), 0},
+			(t_3d_vector){0, sin(deg), cos(deg), 0}});
+	if (axis == 'y')
+		return ((t_3d_matrix){
+			(t_3d_vector){cos(deg), 0, -sin(deg), 0},
+			(t_3d_vector){0, 1, 0, 0},
+			(t_3d_vector){sin(deg), 0, cos(deg), 0}});
+	if (axis == 'z')
+		return ((t_3d_matrix){
+			(t_3d_vector){cos(deg), -sin(deg), 0, 0},
+			(t_3d_vector){sin(deg), cos(deg), 0, 0},
+			(t_3d_vector){0, 0, 1, 0}});
+	else
+		return ((t_3d_matrix){
+			(t_3d_vector){1, 0, 0, 0},
+			(t_3d_vector){0, 1, 0, 0},
+			(t_3d_vector){0, 0, 1, 0}});
+}
 
 
-	if (!theta)
-		theta = 45;
-	theta = theta * 3.14 / 180;
-	if (!axis)
-		axis = 0;
+t_3d_vector	iso_proj(t_3d_vector vec)
+{
+	double	x_deg;
+	double	z_deg;
 
-	// *x = (*x - *y) * cos(theta);
+	z_deg = 45;
+	x_deg = atan(sqrt(2));
+	vec = multiply_vector_x_matrix(vec, rotation_matrix(z_deg, 'z'));
+	vec = multiply_vector_x_matrix(vec, rotation_matrix(x_deg, 'x'));
+	return (vec);
+}
+
+t_3d_vector	para_proj(t_3d_vector vec)
+{
+	return (vec);
+}
+
+t_3d_vector	angular_proj(t_3d_vector vec, t_fdf *data)
+{
+	if (!data->rotate_x)
+		data->rotate_x = atan(sqrt(2));
+	if (!data->rotate_y)
+		data->rotate_y = 0;
+	if (!data->rotate_z)
+		data->rotate_z = 45;
+	vec = multiply_vector_x_matrix(vec, rotation_matrix(data->rotate_z, 'z'));
+	vec = multiply_vector_x_matrix(vec, rotation_matrix(data->rotate_x, 'x'));
+	vec = multiply_vector_x_matrix(vec, rotation_matrix(data->rotate_y, 'y'));
+	return (vec);
+}
+
+/* 	// *x = (*x - *y) * cos(theta);
 	// *y = (*x + *y) * sin(theta) - *z;
 
 	if (axis == 1)
@@ -45,30 +110,29 @@ void	iso_proj(float *x, float *y, float *z, float theta, int axis)
 		*y = (*y) * cos(theta) - *z * sin(theta);
 		// *z = *y * sin(theta) + *z * cos(theta);
 	}
-
 	else if (axis == 2)
 	{
 		*x = *z * sin(theta) + *x * cos(theta);
 		*y = *y;
 		// *z = *y * cos(theta) - *x * sin(theta);
 	}
-
 	else if (axis == 3)
 	{
 		*x = *x * cos(theta) - *y * sin(theta);
 		*y = *x * sin(theta) + *y * cos(theta);
 		*z = *z;
 	}
-}
+ */
 
-
-void	bresenham(float x, float y, float x1, float y1, t_fdf *data)
+void	bresenham(double x, double y, double x1, double y1, t_fdf *data)
 {
 	float	x_step;
 	float	y_step;
 	int	max;
 	float	z;
 	float	z1;
+	t_3d_vector	vec;
+	t_3d_vector	vec1;
 
 	z = (float)data->z_matrix[(int)y][(int)x];
 	z1 = (float)data->z_matrix[(int)y1][(int)x1];
@@ -91,10 +155,24 @@ void	bresenham(float x, float y, float x1, float y1, t_fdf *data)
 		data->color = 0xFFFFFFFF;
 
 	//-------------projection-----
+	vec = (t_3d_vector){x, y, z, data->color};
+	vec1 = (t_3d_vector){x1, y1, z1, data->color};
+	// vec = iso_proj(vec);
+	// vec1 = iso_proj(vec1);
 
-	iso_proj(&x, &y, &z, data->rotate, data->axis);
-	iso_proj(&x1, &y1, &z1, data->rotate, data->axis);
+	// vec = para_proj(vec);
+	// vec1 = para_proj(vec1);
 
+	vec = angular_proj(vec, data);
+	vec1 = angular_proj(vec1, data);
+
+
+	x = vec.x;
+	y = vec.y;
+	z = vec.z;
+	x1 = vec1.x;
+	y1 = vec1.y;
+	z1 = vec1.z;
 	//-------------shift---------
 
 	if (!data->shift_x)
