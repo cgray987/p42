@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:25:29 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/15 17:15:40 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/16 16:53:33 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,16 @@
 # include <math.h>
 # include "../lib/mlx/include/MLX42/MLX42.h"
 # include "../lib/libft/includes/libft.h"
-# define WIDTH 1280
-# define HEIGHT 720
+# define WIDTH 1920
+# define HEIGHT 1080
 
+typedef struct s_map
+{
+	int			x;
+	int			y;
+	int			z;
+	uint32_t	color;
+}	t_map;
 
 typedef struct s_fdf
 {
@@ -62,9 +69,9 @@ typedef struct s_fdf
 	int			shift_x;
 	int			shift_y;
 	int			translate;
-	double			rotate_x;
-	double			rotate_y;
-	double			rotate_z;
+	double		rotate_x;
+	double		rotate_y;
+	double		rotate_z;
 	int			axis;
 	int			color;
 
@@ -108,5 +115,9 @@ void	bresenham(double x0, double y0, double x1, double y1, t_fdf *data);
 void	zoom_scroll_hook(double xdelta, double ydelta, t_fdf *data);
 void	key_hook_fdf(mlx_key_data_t keydata, t_fdf *data);
 void	draw(t_fdf *data);
+int		color_from_str(char *str);
+t_color	split_color(uint32_t rgba);
+int		merge_color(int r, int g, int b, int a);
+
 
 #endif

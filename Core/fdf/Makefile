@@ -15,7 +15,7 @@ INC_LIBMLX	:= -I ./include -I $(LIBMLX_PATH)/include
 INC_LIBFT	:= -I ./libft
 
 SRC_PATH	:= src/
-SRC			:= fdf.c read_file.c draw.c hooks.c
+SRC			:= fdf.c read_file.c draw.c hooks.c color.c
 SRCS		:= $(addprefix $(SRC_PATH), $(SRC))
 
 OBJ_PATH:= obj/

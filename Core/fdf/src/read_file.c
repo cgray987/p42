@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 14:50:59 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/12 16:29:14 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/16 16:37:19 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,25 @@ int	map_width(char *file_name)
 }
 
 //fills z_matrix from map data
-void	fill_matrix(int *z_matrix_line, char *line)
+void	fill_matrix(int *z_matrix_line, char *line, t_fdf *data)
 {
 	char	**matrix;
 	int		i;
+	int		j;
+	char	**element;
 
 	i = 0;
 	matrix = ft_split(line, ' ');
 	while (matrix[i])
 	{
+		j = 0;
+		element = ft_split(matrix[i], ',');
+		// while (data->color[i][j])
+		// {
+		// 	if (element[1])
+		// 		data->color[i][j] = color_from_str(element[1]);
+		// 	j++;
+		// }
 		z_matrix_line[i] = ft_atoi(matrix[i]);
 		free(matrix[i]);
 		i++;
@@ -67,10 +77,12 @@ void	read_file(char *file_name, t_fdf *data)
 	data->height = map_height(file_name);
 	data->width = map_width(file_name);
 	data->z_matrix = (int **)malloc(sizeof(int *) * (data->height + 1));
+	// data->color = (int **)malloc(sizeof(int *) * (data->height + 1));
 	i = 0;
 	while (i < data->height)
 	{
 		data->z_matrix[i] = (int *)malloc(sizeof(int) * (data->width + 1));
+		// data->color[i] = (int *)malloc(sizeof(int) * (data->width + 1));
 		i++;
 	}
 	i = 0;
@@ -78,7 +90,7 @@ void	read_file(char *file_name, t_fdf *data)
 	while (i < data->height)
 	{
 		line = get_next_line(fd);
-		fill_matrix(data->z_matrix[i], line);
+		fill_matrix(data->z_matrix[i], line, data);
 		free(line);
 		i++;
 	}

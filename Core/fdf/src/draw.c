@@ -6,25 +6,11 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:48:17 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/15 17:45:58 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/16 17:10:21 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-/*
-R_x(t) =   {1		0		0
- 			0		cos(t)	-sin(t)
-			0		sin(t)	cos(t)}
-
-R_y(t) =   {cos(t)	0		sin(t)
- 			0		1		0
-			-sin(t)	0		1}
-
-R_z(t) =   {cos(t)	-sin(t)	0
- 			sin(t)	cos(t)	0
-			0		0		1}
-*/
 
 t_3d_vector	multiply_vector_x_matrix(t_3d_vector v, t_3d_matrix m)
 {
@@ -36,15 +22,15 @@ t_3d_vector	multiply_vector_x_matrix(t_3d_vector v, t_3d_matrix m)
 	v.z = lv[0] * m.k.x + lv[1] * m.k.y + lv[2] * m.k.z;
 	return (v);
 }
-/*returns 3d rotation matrix given rotation angle and the axis to
-rotate about
- */
 
 double	rad(double deg)
 {
 	return (deg * 3.14 / 180);
 }
 
+/*returns 3d rotation matrix given rotation angle and the axis to
+rotate about
+ */
 t_3d_matrix	rotation_matrix(double deg, char axis)
 {
 	if (axis == 'x')
@@ -96,8 +82,31 @@ t_3d_vector	angular_proj(t_3d_vector vec, t_fdf *data)
 	if (!data->rotate_z)
 		data->rotate_z = 45;
 	vec = multiply_vector_x_matrix(vec, rotation_matrix(data->rotate_z, 'z'));
-	vec = multiply_vector_x_matrix(vec, rotation_matrix(data->rotate_x, 'x'));
 	vec = multiply_vector_x_matrix(vec, rotation_matrix(data->rotate_y, 'y'));
+	vec = multiply_vector_x_matrix(vec, rotation_matrix(data->rotate_x, 'x'));
+	return (vec);
+}
+
+t_3d_vector	spherical_proj(t_3d_vector vec)
+{
+	double	r;
+	double	theta;
+	double	phi;
+	double	x2;
+	double	y2;
+	double	z2;
+
+	x2 = vec.x * vec.x;
+	y2 = vec.y * vec.y;
+	z2 = vec.z * vec.z;
+
+	r = sqrt(x2 + y2 + z2);
+	theta = atan(vec.y / vec.x);
+	phi = atan(sqrt(x2 + y2) / vec.z);
+
+	vec.x = r * sin(phi) * cos(theta);
+	vec.y = r * sin(phi) * sin(theta);
+	vec.z = r * cos(phi);
 	return (vec);
 }
 
@@ -139,7 +148,7 @@ void	bresenham(double x, double y, double x1, double y1, t_fdf *data)
 
 	//--------------zoom---------
 	if (!data->zoom)
-		data->zoom = 15;
+		data->zoom = 10;
 	x *= data->zoom;
 	y *= data->zoom;
 	x1 *= data->zoom;
@@ -148,11 +157,14 @@ void	bresenham(double x, double y, double x1, double y1, t_fdf *data)
 	// z1 *= data->zoom;
 	//--------------color---------
 	if (z > 0 || z1 > 0)
-		data->color = 0xFF0000FF;
+		data->color = 0x99C28FFF;
 	else if (z < 0 || z1 < 0)
-		data->color = 0x00FF00FF;
+		data->color = 0xC28F8FFF;
 	else
 		data->color = 0xFFFFFFFF;
+
+	// if (!data->color)
+	// 	data->color = 0xFFFFFFFF;
 
 	//-------------projection-----
 	vec = (t_3d_vector){x, y, z, data->color};
@@ -162,6 +174,7 @@ void	bresenham(double x, double y, double x1, double y1, t_fdf *data)
 
 	// vec = para_proj(vec);
 	// vec1 = para_proj(vec1);
+
 
 	vec = angular_proj(vec, data);
 	vec1 = angular_proj(vec1, data);
@@ -176,9 +189,17 @@ void	bresenham(double x, double y, double x1, double y1, t_fdf *data)
 	//-------------shift---------
 
 	if (!data->shift_x)
-		data->shift_x = 300;
+		data->shift_x = WIDTH / 2;
 	if (!data->shift_y)
-		data->shift_y = 300;
+		data->shift_y = HEIGHT / 2 - 100;
+	if (data->shift_x > WIDTH)
+		data->shift_x = WIDTH - 2;
+	if (data->shift_y > HEIGHT)
+		data->shift_y = HEIGHT - 2;
+	if (data->shift_x < 10)
+		data->shift_x = 2;
+	if (data->shift_y < 10)
+		data->shift_y = 2;
 	x += data->shift_x;
 	y += data->shift_y;
 	x1 += data->shift_x;

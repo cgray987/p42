@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 14:59:04 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/05 17:25:21 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/16 17:01:27 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_list
 }						t_list;
 
 int						ft_atoi(const char *string);
+int						ft_atoi_base(char *str, int base);
 int						ft_abs(int n);
 void					*ft_bzero(void *str, size_t len);
 void					*ft_calloc(size_t count, size_t size);

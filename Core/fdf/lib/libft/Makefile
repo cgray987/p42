@@ -20,7 +20,7 @@ STR_FNS = ft_count_words ft_split ft_strchr \
 
 CONV_DIR = convert_fns/
 CONV_FNS = ft_atoi ft_itoa ft_tolower \
-		ft_toupper ft_max ft_abs
+		ft_toupper ft_max ft_abs ft_atoi_base
 
 PUT_FD_DIR = put_fd_fns/
 PUT_FD_FNS = ft_putchar_fd ft_putendl_fd ft_putnbr_fd \
