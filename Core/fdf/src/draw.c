@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:48:17 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/16 17:10:21 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/17 19:01:46 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_3d_vector	iso_proj(t_3d_vector vec)
 	double	x_deg;
 	double	z_deg;
 
-	z_deg = 45;
+	z_deg = -rad(45);
 	x_deg = atan(sqrt(2));
 	vec = multiply_vector_x_matrix(vec, rotation_matrix(z_deg, 'z'));
 	vec = multiply_vector_x_matrix(vec, rotation_matrix(x_deg, 'x'));
@@ -70,6 +70,17 @@ t_3d_vector	iso_proj(t_3d_vector vec)
 
 t_3d_vector	para_proj(t_3d_vector vec)
 {
+	vec = multiply_vector_x_matrix(vec, rotation_matrix(0, 'z'));
+	vec = multiply_vector_x_matrix(vec, rotation_matrix(0, 'y'));
+	vec = multiply_vector_x_matrix(vec, rotation_matrix(rad(90), 'x'));
+	return (vec);
+}
+
+t_3d_vector	flat_proj(t_3d_vector vec)
+{
+	vec = multiply_vector_x_matrix(vec, rotation_matrix(0, 'z'));
+	vec = multiply_vector_x_matrix(vec, rotation_matrix(0, 'y'));
+	vec = multiply_vector_x_matrix(vec, rotation_matrix(0, 'x'));
 	return (vec);
 }
 
@@ -80,7 +91,7 @@ t_3d_vector	angular_proj(t_3d_vector vec, t_fdf *data)
 	if (!data->rotate_y)
 		data->rotate_y = 0;
 	if (!data->rotate_z)
-		data->rotate_z = 45;
+		data->rotate_z = -rad(45);
 	vec = multiply_vector_x_matrix(vec, rotation_matrix(data->rotate_z, 'z'));
 	vec = multiply_vector_x_matrix(vec, rotation_matrix(data->rotate_y, 'y'));
 	vec = multiply_vector_x_matrix(vec, rotation_matrix(data->rotate_x, 'x'));
@@ -101,7 +112,7 @@ t_3d_vector	spherical_proj(t_3d_vector vec)
 	z2 = vec.z * vec.z;
 
 	r = sqrt(x2 + y2 + z2);
-	theta = atan(vec.y / vec.x);
+	theta = atan2(vec.y, vec.x);
 	phi = atan(sqrt(x2 + y2) / vec.z);
 
 	vec.x = r * sin(phi) * cos(theta);
@@ -140,45 +151,63 @@ void	bresenham(double x, double y, double x1, double y1, t_fdf *data)
 	int	max;
 	float	z;
 	float	z1;
+	double	z_max;
 	t_3d_vector	vec;
 	t_3d_vector	vec1;
 
 	z = (float)data->z_matrix[(int)y][(int)x];
 	z1 = (float)data->z_matrix[(int)y1][(int)x1];
 
-	//--------------zoom---------
-	if (!data->zoom)
-		data->zoom = 10;
-	x *= data->zoom;
-	y *= data->zoom;
-	x1 *= data->zoom;
-	y1 *= data->zoom;
-	// z1 *= data->zoom;
-	// z1 *= data->zoom;
 	//--------------color---------
-	if (z > 0 || z1 > 0)
+
+	if (data->color_matrix[(int)y][(int)x] != 0)
+		data->color = data->color_matrix[(int)y][(int)x];
+	// need to control this by input
+	else if (z > 0 || z1 > 0)
 		data->color = 0x99C28FFF;
 	else if (z < 0 || z1 < 0)
 		data->color = 0xC28F8FFF;
 	else
 		data->color = 0xFFFFFFFF;
 
-	// if (!data->color)
-	// 	data->color = 0xFFFFFFFF;
+
+	//--------------zoom---------
+
+	if (!data->zoom)
+		data->zoom = 50;
+	x *= data->zoom;
+	y *= data->zoom;
+	x1 *= data->zoom;
+	y1 *= data->zoom;
+	z *= data->zoom / 10;
+	z1 *= data->zoom / 10;
 
 	//-------------projection-----
 	vec = (t_3d_vector){x, y, z, data->color};
 	vec1 = (t_3d_vector){x1, y1, z1, data->color};
-	// vec = iso_proj(vec);
-	// vec1 = iso_proj(vec1);
 
-	// vec = para_proj(vec);
-	// vec1 = para_proj(vec1);
-
-
-	vec = angular_proj(vec, data);
-	vec1 = angular_proj(vec1, data);
-
+	if (!data->project)
+		data->project = 'A';
+	if (data->project == 'A')
+	{
+		vec = angular_proj(vec, data);
+		vec1 = angular_proj(vec1, data);
+	}
+	if (data->project == 'I')
+	{
+		vec = iso_proj(vec);
+		vec1 = iso_proj(vec1);
+	}
+	if (data->project == 'P')
+	{
+		vec = para_proj(vec);
+		vec1 = para_proj(vec1);
+	}
+	if (data->project == 'F')
+	{
+		vec = flat_proj(vec);
+		vec1 = flat_proj(vec1);
+	}
 
 	x = vec.x;
 	y = vec.y;
@@ -189,17 +218,17 @@ void	bresenham(double x, double y, double x1, double y1, t_fdf *data)
 	//-------------shift---------
 
 	if (!data->shift_x)
-		data->shift_x = WIDTH / 2;
+		data->shift_x = (WIDTH / 2) - (.5 * data->width * data->zoom);
 	if (!data->shift_y)
-		data->shift_y = HEIGHT / 2 - 100;
+		data->shift_y = HEIGHT / 2;
 	if (data->shift_x > WIDTH)
 		data->shift_x = WIDTH - 2;
 	if (data->shift_y > HEIGHT)
 		data->shift_y = HEIGHT - 2;
-	if (data->shift_x < 10)
-		data->shift_x = 2;
-	if (data->shift_y < 10)
-		data->shift_y = 2;
+	if (data->shift_x <= 30)
+		data->shift_x = 30;
+	if (data->shift_y <= 30)
+		data->shift_y = 30;
 	x += data->shift_x;
 	y += data->shift_y;
 	x1 += data->shift_x;

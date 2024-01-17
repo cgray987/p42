@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:25:29 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/16 16:53:33 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/17 17:43:48 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ typedef struct s_fdf
 	double		rotate_z;
 	int			axis;
 	int			color;
+	int			**color_matrix;
+	char		project;
 
 	mlx_t		*mlx_ptr;
 	mlx_image_t	*img_ptr;
@@ -118,6 +120,8 @@ void	draw(t_fdf *data);
 int		color_from_str(char *str);
 t_color	split_color(uint32_t rgba);
 int		merge_color(int r, int g, int b, int a);
+double	rad(double deg);
+uint32_t	ft_grad_pt(t_3d_vector start, t_3d_vector end, t_3d_vector curr);
 
 
 #endif

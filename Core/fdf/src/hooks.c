@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:30:52 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/16 17:03:35 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/17 19:04:01 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	zoom_scroll_hook(double xdelta, double ydelta, t_fdf *data)
 	}
 	if (ydelta < 0)
 	{
-		if (data->zoom <= 2)
-			data->zoom = 2;
+		if (data->zoom <= 1)
+			data->zoom = 1;
 		data->zoom -= 1;
 		// data->zoom = zoom_2;
 	}
@@ -64,35 +64,48 @@ void	key_hook_fdf(mlx_key_data_t keydata, t_fdf *data)
 	if (keydata.key == MLX_KEY_KP_2
 		&& (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
 	{
-		data->rotate_x -= .1;
+		data->rotate_x -= rad(5);
 	}
 	if (keydata.key == MLX_KEY_KP_8
 		&& (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
 	{
-		data->rotate_x += .1;
+		data->rotate_x += rad(5);
 	}
 	if (keydata.key == MLX_KEY_KP_4
 		&& (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
 	{
-		data->rotate_y -= .1;
+		data->rotate_y -= rad(5);
 	}
 	if (keydata.key == MLX_KEY_KP_6
 		&& (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
 	{
-		data->rotate_y += .1;
+		data->rotate_y += rad(5);
 	}
 	if (keydata.key == MLX_KEY_KP_7
 		&& (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
 	{
-		data->rotate_z -= .1;
+		data->rotate_z -= rad(5);
 	}
 	if (keydata.key == MLX_KEY_KP_9
 		&& (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
 	{
-		data->rotate_z += .1;
+		data->rotate_z += rad(5);
 	}
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 		mlx_close_window(data->mlx_ptr);
+	if (keydata.key == MLX_KEY_1 && keydata.action == MLX_PRESS)
+	{
+		data->project = 'A';
+		data->rotate_x = atan(sqrt(2));
+		data->rotate_z = -rad(45);
+		data->rotate_y = 0;
+	}
+	if (keydata.key == MLX_KEY_2 && keydata.action == MLX_PRESS)
+		data->project = 'I';
+	if (keydata.key == MLX_KEY_3 && keydata.action == MLX_PRESS)
+		data->project = 'P';
+	if (keydata.key == MLX_KEY_4 && keydata.action == MLX_PRESS)
+		data->project = 'F';
 	mlx_delete_image(data->mlx_ptr, data->img_ptr);
 	mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
 	draw(data);
