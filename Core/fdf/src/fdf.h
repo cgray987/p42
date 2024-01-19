@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:25:29 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/17 17:43:48 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/19 18:05:26 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,25 @@ typedef struct s_map
 	int			z;
 	uint32_t	color;
 }	t_map;
+/*
+	{x, y, z, color}
+ */
+typedef struct s_3d_vector
+{
+	double		x;
+	double		y;
+	double		z;
+	uint32_t	color;
+}	t_3d_vector;
 
 typedef struct s_fdf
 {
 	int			width;
 	int			height;
+	t_3d_vector	center;
 	int			**z_matrix;
+	int			z_max;
+	int			z_min;
 	int			zoom;
 	int			shift_x;
 	int			shift_y;
@@ -81,16 +94,7 @@ typedef struct s_fdf
 	mlx_image_t	*img_ptr;
 
 }	t_fdf;
-/*
-	{x, y, z, color}
- */
-typedef struct s_3d_vector
-{
-	double		x;
-	double		y;
-	double		z;
-	uint32_t	color;
-}	t_3d_vector;
+
 /*
 	i- {x, y, z, color;
 	j-  x, y, z, color;
@@ -122,6 +126,9 @@ t_color	split_color(uint32_t rgba);
 int		merge_color(int r, int g, int b, int a);
 double	rad(double deg);
 uint32_t	ft_grad_pt(t_3d_vector start, t_3d_vector end, t_3d_vector curr);
+t_3d_vector	angular_proj(t_3d_vector vec, t_fdf *data);
+void	init_fdf(t_fdf *data, char *str);
+int		filename_error(char *fd);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:30:52 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/17 19:04:01 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/19 17:44:15 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,19 @@ void	zoom_scroll_hook(double xdelta, double ydelta, t_fdf *data)
 {
 	if (ydelta > 0)
 	{
-		if (data->zoom >= 100)
+		if (data->zoom > 100)
 			data->zoom = 100;
 		data->zoom += 1;
 		// data->zoom = zoom_2;
 	}
 	if (ydelta < 0)
 	{
-		if (data->zoom <= 1)
-			data->zoom = 1;
+		if (data->zoom <= 2)
+			data->zoom = 2;
 		data->zoom -= 1;
 		// data->zoom = zoom_2;
 	}
+	ft_printf("Zoom: %d\n", data->zoom);
 	mlx_delete_image(data->mlx_ptr, data->img_ptr);
 	mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
 	draw(data);
@@ -101,11 +102,19 @@ void	key_hook_fdf(mlx_key_data_t keydata, t_fdf *data)
 		data->rotate_y = 0;
 	}
 	if (keydata.key == MLX_KEY_2 && keydata.action == MLX_PRESS)
-		data->project = 'I';
-	if (keydata.key == MLX_KEY_3 && keydata.action == MLX_PRESS)
+	{
 		data->project = 'P';
-	if (keydata.key == MLX_KEY_4 && keydata.action == MLX_PRESS)
+		data->rotate_x = rad(90);
+		data->rotate_z = 0;
+		data->rotate_y = 0;
+	}
+	if (keydata.key == MLX_KEY_3 && keydata.action == MLX_PRESS)
+	{
 		data->project = 'F';
+		data->rotate_x = 0;
+		data->rotate_z = 0;
+		data->rotate_y = 0;
+	}
 	mlx_delete_image(data->mlx_ptr, data->img_ptr);
 	mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
 	draw(data);

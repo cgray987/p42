@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 14:50:59 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/17 17:38:36 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/19 17:45:41 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,17 @@ void	fill_matrix(int *z_matrix_line, int *color_mat_line,
 {
 	char	**matrix;
 	int		i;
-	int		j;
+	int		max;
 	char	**element;
 
 	i = 0;
 	matrix = ft_split(line, ' ');
 	while (matrix[i])
 	{
-		j = 0;
 		element = ft_split(matrix[i], ',');
 		if (element[1])
-		{
 			color_mat_line[i] = color_from_str(element[1]);
-		}
 		z_matrix_line[i] = ft_atoi(matrix[i]);
-		// ft_printf("-%X ", color_mat_line[i]);
 		free(matrix[i]);
 		free(element);
 		i++;
@@ -69,6 +65,43 @@ void	fill_matrix(int *z_matrix_line, int *color_mat_line,
 }
 
 //reads map and places into fdf data matrix
+void	find_origin(t_fdf *data)
+{
+	t_3d_vector	center;
+
+	center.x = data->width / 2;
+	center.y = data->height / 2;
+	center.z = (data->z_max - data->z_min) / 2;
+	center.color = 0xFFFFFFFF;
+	data->center = center;
+}
+
+void	z_lim(t_fdf *data)
+{
+	int	max;
+	int	min;
+	int	i;
+	int	j;
+
+	max = 0;
+	min = 0;
+	i = 0;
+	while (i < data->height)
+	{
+		j = 0;
+		while (j < data->width)
+		{
+			if (data->z_matrix[i][j] > max)
+				max = data->z_matrix[i][j];
+			if (data->z_matrix[i][j] < min)
+				min = data->z_matrix[i][j];
+			j++;
+		}
+		i++;
+	}
+	data->z_max = max;
+	data->z_min = min;
+}
 
 void	read_file(char *file_name, t_fdf *data)
 {
@@ -100,4 +133,6 @@ void	read_file(char *file_name, t_fdf *data)
 	close(fd);
 	data->z_matrix[i] = '\0';
 	data->color_matrix[i] = '\0';
+	z_lim(data);
+	find_origin(data);
 }
