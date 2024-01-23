@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 11:55:02 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/19 18:05:33 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/22 16:45:25 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	main(int argc, char **argv)
 		read_file(argv[1], data);
 		init_fdf(data, argv[1]);
 		draw(data);
+		mlx_loop_hook(data->mlx_ptr, &menu_hook, data);
 		mlx_scroll_hook(data->mlx_ptr, &zoom_scroll_hook, data);
 		mlx_key_hook(data->mlx_ptr, &key_hook_fdf, data);
 		mlx_image_to_window(data->mlx_ptr, data->img_ptr, 0, 0);
@@ -56,21 +57,19 @@ int	main(int argc, char **argv)
 		return (EXIT_SUCCESS);
 	}
 }
+/* print map
+	int i;
+	int j;
 
-
-//print map
-	// int i;
-	// int j;
-
-	// i = 0;
-	// while (i < data->height)
-	// {
-	// 	j = 0;
-	// 	while (j < data->width)
-	// 	{
-	// 		printf("%3d", data->z_matrix[i][j]);
-	// 		j++;
-	// 	}
-	// 	printf("\n");
-	// 	i++;
-	// }
+	i = 0;
+	while (i < data->height)
+	{
+		j = 0;
+		while (j < data->width)
+		{
+			printf("%3d", data->z_matrix[i][j]);
+			j++;
+		}
+		printf("\n");
+		i++;
+	} */

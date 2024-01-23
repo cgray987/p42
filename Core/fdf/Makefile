@@ -1,6 +1,5 @@
 NAME		:= fdf
-CFLAGS		:= -Wextra -Wall -Werror -Wunreachable-code -Ofast -g
-CFLAGS		:=
+CFLAGS		:= -Wextra -Wall -g #-fsanitize=address
 CC 			:= gcc
 
 LIBMLX_PATH	:= ./lib/mlx
@@ -15,7 +14,7 @@ INC_LIBMLX	:= -I ./include -I $(LIBMLX_PATH)/include
 INC_LIBFT	:= -I ./libft
 
 SRC_PATH	:= src/
-SRC			:= fdf.c read_file.c draw.c hooks.c color.c init.c error.c
+SRC			:= fdf.c read_file.c draw.c hooks.c color.c init.c error.c math.c read_utils.c
 SRCS		:= $(addprefix $(SRC_PATH), $(SRC))
 
 OBJ_PATH:= obj/

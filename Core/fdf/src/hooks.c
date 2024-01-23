@@ -6,50 +6,44 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:30:52 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/19 17:44:15 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/23 17:11:56 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-// typedef struct
-// {
-// 	int zoom_2;
-// } t_zoom;
-
-
-void	zoom_scroll_hook(double xdelta, double ydelta, t_fdf *data)
+/* Creates and displays string to show zoom level and rotations.*/
+int	menu_hook(t_fdf *data)
 {
-	if (ydelta > 0)
-	{
-		if (data->zoom > 100)
-			data->zoom = 100;
-		data->zoom += 1;
-		// data->zoom = zoom_2;
-	}
-	if (ydelta < 0)
-	{
-		if (data->zoom <= 2)
-			data->zoom = 2;
-		data->zoom -= 1;
-		// data->zoom = zoom_2;
-	}
-	ft_printf("Zoom: %d\n", data->zoom);
-	mlx_delete_image(data->mlx_ptr, data->img_ptr);
-	mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
-	draw(data);
-	mlx_image_to_window(data->mlx_ptr, data->img_ptr, 0, 0);
+	char	*zoom;
+
+	zoom = ft_strjoin("Zoom: ", ft_itoa(data->zoom));
+	zoom = ft_strjoin(zoom, " Rotate (x, y, z): ");
+	zoom = ft_strjoin(zoom, ft_strjoin("( ", ft_itoa(deg(data->rotate_x))));
+	zoom = ft_strjoin(zoom, ft_strjoin(", ", ft_itoa(deg(data->rotate_y))));
+	zoom = ft_strjoin(zoom, ft_strjoin(", ", ft_itoa(deg(data->rotate_z))));
+	zoom = ft_strjoin(zoom, " )");
+	mlx_delete_image(data->mlx_ptr, data->img_menu);
+	data->img_menu = mlx_put_string(data->mlx_ptr, zoom, 5, 5);
+	free(zoom);
+	return (1);
 }
 
-void	key_hook_fdf(mlx_key_data_t keydata, t_fdf *data)
+/* uses MLX ydelta mouse info to inc/dec zoom level */
+void	zoom_scroll_hook(double xdelta, double ydelta, t_fdf *data)
 {
-	// data->rotate_x = 180;
-	// data->rotate_y = 180;
-	// data->rotate_z = 180;
-	// if (data->shift_x <= 1)
-	// 	data->shift_x = WIDTH;
-	// if (data->shift_y <= 1)
-	// 	data->shift_y = HEIGHT;
+	(void)xdelta;
+	if (ydelta > 0)
+		data->zoom += 1;
+	if (ydelta < 0)
+		data->zoom -= 1;
+	data_limits(data);
+	reset_window(data);
+}
+
+/* Hooks for WASD to shift map */
+void	key_shift(mlx_key_data_t keydata, t_fdf *data)
+{
 	if (keydata.key == MLX_KEY_A
 		&& (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
 		data->shift_x -= 20;
@@ -62,61 +56,69 @@ void	key_hook_fdf(mlx_key_data_t keydata, t_fdf *data)
 	if (keydata.key == MLX_KEY_S
 		&& (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
 		data->shift_y += 20;
-	if (keydata.key == MLX_KEY_KP_2
-		&& (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
-	{
-		data->rotate_x -= rad(5);
-	}
-	if (keydata.key == MLX_KEY_KP_8
-		&& (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
-	{
-		data->rotate_x += rad(5);
-	}
-	if (keydata.key == MLX_KEY_KP_4
-		&& (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
-	{
-		data->rotate_y -= rad(5);
-	}
-	if (keydata.key == MLX_KEY_KP_6
-		&& (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
-	{
-		data->rotate_y += rad(5);
-	}
-	if (keydata.key == MLX_KEY_KP_7
-		&& (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
-	{
-		data->rotate_z -= rad(5);
-	}
-	if (keydata.key == MLX_KEY_KP_9
-		&& (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
-	{
-		data->rotate_z += rad(5);
-	}
-	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-		mlx_close_window(data->mlx_ptr);
+	data_limits(data);
+	reset_window(data);
+}
+
+/* Hook for changing projections
+	1 = ISOMETRIC
+	2 = PARALLEL
+	3 = FLAT
+ */
+void	key_proj(mlx_key_data_t keydata, t_fdf *data)
+{
 	if (keydata.key == MLX_KEY_1 && keydata.action == MLX_PRESS)
 	{
-		data->project = 'A';
 		data->rotate_x = atan(sqrt(2));
 		data->rotate_z = -rad(45);
 		data->rotate_y = 0;
 	}
 	if (keydata.key == MLX_KEY_2 && keydata.action == MLX_PRESS)
 	{
-		data->project = 'P';
 		data->rotate_x = rad(90);
 		data->rotate_z = 0;
 		data->rotate_y = 0;
 	}
 	if (keydata.key == MLX_KEY_3 && keydata.action == MLX_PRESS)
 	{
-		data->project = 'F';
 		data->rotate_x = 0;
 		data->rotate_z = 0;
 		data->rotate_y = 0;
 	}
-	mlx_delete_image(data->mlx_ptr, data->img_ptr);
-	mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
-	draw(data);
-	mlx_image_to_window(data->mlx_ptr, data->img_ptr, 0, 0);
+	reset_window(data);
+}
+
+/* Hook to change rotation in each axis. Uses Numpad keys.
+			+	-
+	X axis:	2	8
+	Y axis:	4	6
+	Z axis:	7	9
+	(keydata.action == MLX_REPEAT ||
+ */
+void	key_hook_fdf(mlx_key_data_t keydata, t_fdf *data)
+{
+	key_shift(keydata, data);
+	key_proj(keydata, data);
+	if (keydata.key == MLX_KEY_KP_2
+		&& (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
+		data->rotate_x -= rad(5);
+	if (keydata.key == MLX_KEY_KP_8
+		&& (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
+		data->rotate_x += rad(5);
+	if (keydata.key == MLX_KEY_KP_4
+		&& (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
+		data->rotate_y -= rad(5);
+	if (keydata.key == MLX_KEY_KP_6
+		&& (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
+		data->rotate_y += rad(5);
+	if (keydata.key == MLX_KEY_KP_7
+		&& (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
+		data->rotate_z -= rad(5);
+	if (keydata.key == MLX_KEY_KP_9
+		&& (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
+		data->rotate_z += rad(5);
+	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+		mlx_close_window(data->mlx_ptr);
+	data_limits(data);
+	reset_window(data);
 }
