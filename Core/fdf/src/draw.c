@@ -6,18 +6,67 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:48:17 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/24 14:49:05 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/24 17:29:50 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+void	multiply_matrix_x_matrix(int m1[4][4], int m2[4][4], int res[4][4])
+{
+	int			i;
+	int			j;
+	int			k;
+
+	i = 0;
+	while (i < 4)
+	{
+		j = 0;
+		while (j < 4)
+		{
+			res[i][j] = 0;
+			k = 0;
+			while (k < 4)
+			{
+				res[i][j] += m1[i][k] * m2[k][j];
+				k++;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
 /* multiplies vector {x,y,z,} by 3x3 rotation matrix for each axis */
 t_3d_vector	angular_proj(t_3d_vector vec, t_fdf *data)
 {
-	vec = multiply_vector_x_matrix(vec, rotation_matrix(data->rotate_z, 'z'));
-	vec = multiply_vector_x_matrix(vec, rotation_matrix(data->rotate_y, 'y'));
-	vec = multiply_vector_x_matrix(vec, rotation_matrix(data->rotate_x, 'x'));
+	int		center[4][4];
+	int		neg_center[4][4];
+	int		rotation[4][4]
+	int		res[4][4];
+
+
+	center = {{1, 0, 0, data->center.x}
+	{0, 1, 0, data->center.y}
+	{0, 0, 1, data->center.z}
+	{0, 0, 0, 1}};
+	neg_center = {{1, 0, 0, -data->center.x}
+	{0, 1, 0, -data->center.y}
+	{0, 0, 1, -data->center.z}
+	{0, 0, 0, 1}};
+
+	// vec1 = multiply_vector_x_matrix(vec, rotation_matrix(data->rotate_z, 'z'));
+	// vec2 = multiply_vector_x_matrix(vec, rotation_matrix(data->rotate_x, 'x'));
+	// vec3 = multiply_vector_x_matrix(vec, rotation_matrix(data->rotate_y, 'y'));
+
+	rotation = {multiply_vector_x_matrix(vec, rotation_matrix(data->rotate_z, 'z')),
+		multiply_vector_x_matrix(vec, rotation_matrix(data->rotate_x, 'x')),
+		multiply_vector_x_matrix(vec, rotation_matrix(data->rotate_y, 'y')),
+		{0, 0, 0, 1}};
+	res = multiply_matrix_x_matrix(center, rotation, res);
+	res = multiply_matrix_x_matrix(res, neg_center, res);
+
+
 	return (vec);
 }
 
@@ -33,6 +82,7 @@ void	get_color(t_3d_vector vec, t_3d_vector vec1, t_fdf *data)
 		data->color = 0xFFFFFFFF;
 }
 
+/* adds hook shift x */
 t_3d_vector	shift_x_y(t_3d_vector vec, t_fdf *data)
 {
 	vec.x = vec.x + data->shift_x;
@@ -69,7 +119,7 @@ void	bresenham(t_3d_vector vec, t_3d_vector vec1, t_fdf *data)
 	while ((int)(vec.x - vec1.x) || (int)(vec.y - vec1.y))
 	{
 		if (((uint32_t)vec.x > 0 && (uint32_t)vec.y > 0) && ((uint32_t)vec.x < WIDTH && (uint32_t)vec.y < HEIGHT))
-			mlx_put_pixel(data->img_ptr, (uint32_t)vec.x, (uint32_t)vec.y, data->color);
+			mlx_put_pixel(data->img_ptr, vec.x, vec.y, data->color);
 		vec.x += x_step;
 		vec.y += y_step;
 	}

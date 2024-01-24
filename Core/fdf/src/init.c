@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:27:56 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/24 12:49:51 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/24 16:12:15 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ void	data_limits(t_fdf *data)
 		data->zoom = 2;
 	if (data->zoom > 100)
 		data->zoom = 100;
-	if (data->shift_x > WIDTH)
-		data->shift_x = WIDTH;
-	if (data->shift_y > HEIGHT)
-		data->shift_y = HEIGHT;
-	if (data->shift_x < 2)
-		data->shift_x = 2;
-	if (data->shift_y < 2)
-		data->shift_y = 2;
+// 	if (data->shift_x > WIDTH)
+// 		data->shift_x = WIDTH;
+// 	if (data->shift_y > HEIGHT)
+// 		data->shift_y = HEIGHT;
+// 	if (data->shift_x < 2)
+// 		data->shift_x = 2;
+// 	if (data->shift_y < 2)
+// 		data->shift_y = 2;
 }
 
 void	reset_window(t_fdf *data)

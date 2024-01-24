@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:25:29 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/24 15:07:55 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/24 16:26:28 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,6 @@
 # define PI 3.14159265359
 # define PI_2 6.28318530718
 
-typedef struct s_point
-{
-	double	x;
-	double	y;
-}	t_point;
-
-typedef struct s_map
-{
-	int			x;
-	int			y;
-	int			z;
-	uint32_t	color;
-}	t_map;
 /*
 	{x, y, z, color}
  */
@@ -77,33 +64,8 @@ typedef struct s_3d_vector
 	uint32_t	color;
 }	t_3d_vector;
 
-typedef struct s_fdf
-{
-	int			width;
-	int			height;
-	t_3d_vector	center;
-	int			**z_matrix;
-	int			z_max;
-	int			z_min;
-	int			zoom;
-	int			shift_x;
-	int			shift_y;
-	int			translate;
-	double		rotate_x;
-	double		rotate_y;
-	double		rotate_z;
-	int			axis;
-	int			color;
-	int			**color_matrix;
-	char		project;
-
-	mlx_t		*mlx_ptr;
-	mlx_image_t	*img_ptr;
-	mlx_image_t	*img_menu;
-
-}	t_fdf;
-
 /*
+	3x4 Matrix
 	i- {x, y, z, color;
 	j-  x, y, z, color;
 	k-  x, y, z, color};
@@ -122,6 +84,29 @@ typedef struct s_color
 	uint32_t	b;
 	uint32_t	a;
 }	t_color;
+
+typedef struct s_fdf
+{
+	int			width;
+	int			height;
+	t_3d_vector	center;
+	int			**z_matrix;
+	int			z_max;
+	int			z_min;
+	int			zoom;
+	int			shift_x;
+	int			shift_y;
+	double		rotate_x;
+	double		rotate_y;
+	double		rotate_z;
+	int			color;
+	int			**color_matrix;
+
+	mlx_t		*mlx_ptr;
+	mlx_image_t	*img_ptr;
+	mlx_image_t	*img_menu;
+
+}	t_fdf;
 
 void			read_file(char *file_name, t_fdf *data);
 int				map_height(char *file_name);
@@ -153,3 +138,10 @@ double			rad(double deg);
 double			deg(double rad);
 
 #endif
+/* typedef struct s_map
+{
+	int			x;
+	int			y;
+	int			z;
+	uint32_t	color;
+}	t_map; */
