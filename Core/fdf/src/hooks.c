@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:30:52 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/24 12:56:15 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/24 15:10:18 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	menu_hook(t_fdf *data)
 }
 
 /* uses MLX ydelta mouse info to inc/dec zoom level */
-void	zoom_scroll_hook(double xdelta, double ydelta, t_fdf *data)
+mlx_scrollfunc	zoom_scroll_hook(double xdelta, double ydelta, t_fdf *data)
 {
 	(void)xdelta;
 	if (ydelta > 0)
@@ -39,6 +39,7 @@ void	zoom_scroll_hook(double xdelta, double ydelta, t_fdf *data)
 		data->zoom -= 1;
 	data_limits(data);
 	reset_window(data);
+	return (0);
 }
 
 /* Hooks for WASD to shift map */
@@ -95,7 +96,7 @@ void	key_proj(mlx_key_data_t keydata, t_fdf *data)
 	Z axis:	7	9
 	(keydata.action == MLX_REPEAT ||
  */
-void	key_hook_fdf(mlx_key_data_t keydata, t_fdf *data)
+mlx_keyfunc	key_hook_fdf(mlx_key_data_t keydata, t_fdf *data)
 {
 	key_shift(keydata, data);
 	key_proj(keydata, data);
@@ -121,4 +122,5 @@ void	key_hook_fdf(mlx_key_data_t keydata, t_fdf *data)
 		mlx_close_window(data->mlx_ptr);
 	data_limits(data);
 	reset_window(data);
+	return (0);
 }
