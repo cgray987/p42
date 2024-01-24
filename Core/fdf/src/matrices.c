@@ -6,11 +6,20 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:10:53 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/23 15:59:20 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/24 14:51:28 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+/* returns vector multiplied by an integer */
+t_3d_vector	multiply_vector_x_constant(t_3d_vector v, int n)
+{
+	v.x = n * v.x;
+	v.y = n * v.y;
+	v.z = n * v.z;
+	return (v);
+}
 
 /* returns vector product of vector x matrix */
 t_3d_vector	multiply_vector_x_matrix(t_3d_vector v, t_3d_matrix m)
@@ -22,18 +31,6 @@ t_3d_vector	multiply_vector_x_matrix(t_3d_vector v, t_3d_matrix m)
 	v.y = lv[0] * m.j.x + lv[1] * m.j.y + lv[2] * m.j.z;
 	v.z = lv[0] * m.k.x + lv[1] * m.k.y + lv[2] * m.k.z;
 	return (v);
-}
-
-/* radians to degrees */
-double	rad(double deg)
-{
-	return (deg * PI / 180);
-}
-
-/* degrees to radians */
-double	deg(double rad)
-{
-	return (rad * (180 / PI));
 }
 
 /*returns 3d rotation matrix given rotation angle and the axis to

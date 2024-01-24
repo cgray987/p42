@@ -6,14 +6,14 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:30:52 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/23 17:11:56 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/24 12:56:15 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 /* Creates and displays string to show zoom level and rotations.*/
-int	menu_hook(t_fdf *data)
+void	menu_hook(t_fdf *data)
 {
 	char	*zoom;
 
@@ -23,10 +23,10 @@ int	menu_hook(t_fdf *data)
 	zoom = ft_strjoin(zoom, ft_strjoin(", ", ft_itoa(deg(data->rotate_y))));
 	zoom = ft_strjoin(zoom, ft_strjoin(", ", ft_itoa(deg(data->rotate_z))));
 	zoom = ft_strjoin(zoom, " )");
-	mlx_delete_image(data->mlx_ptr, data->img_menu);
+	if (data->img_menu != NULL)
+		mlx_delete_image(data->mlx_ptr, data->img_menu);
 	data->img_menu = mlx_put_string(data->mlx_ptr, zoom, 5, 5);
 	free(zoom);
-	return (1);
 }
 
 /* uses MLX ydelta mouse info to inc/dec zoom level */

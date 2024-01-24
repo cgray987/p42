@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:28:07 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/23 14:16:44 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/24 14:21:12 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	map_width(char *file_name)
 	int		width;
 
 	fd = open(file_name, O_RDONLY, 0);
+	if (fd == -1)
+		return (EXIT_FAILURE);
 	line = get_next_line(fd);
 	width = ft_count_words(line, ' ');
 	free(line);
@@ -43,11 +45,10 @@ int	map_width(char *file_name)
 
 //fills z_matrix and color matrix from map data
 void	fill_matrix(int *z_matrix_line, int *color_mat_line,
-			char *line, t_fdf *data)
+			char *line)
 {
 	char	**matrix;
 	int		i;
-	int		max;
 	char	**element;
 
 	i = 0;

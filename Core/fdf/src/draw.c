@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:48:17 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/23 17:10:08 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/24 14:49:05 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,128 +21,104 @@ t_3d_vector	angular_proj(t_3d_vector vec, t_fdf *data)
 	return (vec);
 }
 
+void	get_color(t_3d_vector vec, t_3d_vector vec1, t_fdf *data)
+{
+	if (data->color_matrix[(int)vec.y][(int)vec.x])
+		vec.color = data->color_matrix[(int)vec.y][(int)vec.x];
+	else if (vec.z > 0 || vec1.z > 0)
+		data->color = 0x99C28FFF;
+	else if (vec.z < 0 || vec1.z < 0)
+		data->color = 0xC28F8FFF;
+	else
+		data->color = 0xFFFFFFFF;
+}
+
+t_3d_vector	shift_x_y(t_3d_vector vec, t_fdf *data)
+{
+	vec.x = vec.x + data->shift_x;
+	vec.y = vec.y + data->shift_y;
+	return (vec);
+}
+
 /* given two sets of coords, find fastest way to draw from one to the other.
 before drawing:
 	-find corresponding z altitude/color
 	-multiply by zoom value
 	-add shift value
 */
-void	bresenham(double x, double y, double x1, double y1, t_fdf *data)
+void	bresenham(t_3d_vector vec, t_3d_vector vec1, t_fdf *data)
 {
 	double		x_step;
 	double		y_step;
 	double		max;
-	double		z;
-	double		z1;
-	t_3d_vector	vec;
-	t_3d_vector	vec1;
 
-	z = (double)data->z_matrix[(int)y][(int)x];
-	z1 = (double)data->z_matrix[(int)y1][(int)x1];
-
-	//--------------color---------
-
-	if (data->color_matrix[(int)y][(int)x])
-		data->color = data->color_matrix[(int)y][(int)x];
-	// need to control this by input
-	else if (z > 0 || z1 > 0)
-		data->color = 0x99C28FFF;
-	else if (z < 0 || z1 < 0)
-		data->color = 0xC28F8FFF;
-	else
-		data->color = 0xFFFFFFFF;
-
-
-	// //--------------zoom---------
-
-	x *= data->zoom;
-	y *= data->zoom;
-	x1 *= data->zoom;
-	y1 *= data->zoom;
-	z *= data->zoom / data->z_max;
-	z1 *= data->zoom / data->z_max;
-
-
-	//-------------projection/rotation-----
-	vec = (t_3d_vector){x, y, z, data->color};
-	vec1 = (t_3d_vector){x1, y1, z1, data->color};
-
+	vec.z = (double)data->z_matrix[(int)vec.y][(int)vec.x];
+	vec1.z = (double)data->z_matrix[(int)vec1.y][(int)vec1.x];
+	get_color(vec, vec1, data);
+	vec = multiply_vector_x_constant(vec, data->zoom);
+	vec1 = multiply_vector_x_constant(vec1, data->zoom);
 	vec = angular_proj(vec, data);
 	vec1 = angular_proj(vec1, data);
-
-	x = vec.x;
-	y = vec.y;
-	z = vec.z;
-	x1 = vec1.x;
-	y1 = vec1.y;
-	z1 = vec1.z;
-
-	// //-------------shift---------
-
-	x += data->shift_x;
-	y += data->shift_y;
-	x1 += data->shift_x;
-	y1 += data->shift_y;
-
-	x_step = x1 - x;
-	y_step = y1 - y;
-
+	vec = shift_x_y(vec, data);
+	vec1 = shift_x_y(vec1, data);
+	x_step = vec1.x - vec.x;
+	y_step = vec1.y - vec.y;
 	max = ft_max(ft_abs(x_step), ft_abs(y_step));
 	x_step /= max;
 	y_step /= max;
-//(int)(x - x1) || (int)(y - y1)
-	while ((int)(x - x1) || (int)(y - y1))
+	while ((int)(vec.x - vec1.x) || (int)(vec.y - vec1.y))
 	{
-		if ((x > 0 && y > 0) && (x < WIDTH && y < HEIGHT))
-		{
-			printf("x: %f y: %f ", x, y);
-			mlx_put_pixel(data->img_ptr, x, y, data->color);
-		}
-		x += x_step;
-		y += y_step;
+		if (((uint32_t)vec.x > 0 && (uint32_t)vec.y > 0) && ((uint32_t)vec.x < WIDTH && (uint32_t)vec.y < HEIGHT))
+			mlx_put_pixel(data->img_ptr, (uint32_t)vec.x, (uint32_t)vec.y, data->color);
+		vec.x += x_step;
+		vec.y += y_step;
 	}
 }
 
 void	draw(t_fdf *data)
 {
-	int	x;
-	int	y;
+	t_3d_vector	p0;
+	t_3d_vector	p1_x;
+	t_3d_vector	p1_y;
 
-	y = 0;
-	while (y < data->height)
+	p0 = (t_3d_vector){0, 0, 0, 0};
+	while (p0.y < data->height)
 	{
-		x = 0;
-		while (x < data->width)
+		p0.x = 0;
+		while (p0.x < data->width)
 		{
-			if (x < data->width - 1)
-				bresenham(x, y, x + 1, y, data);
-			if (y < data->height - 1)
-				bresenham(x, y, x, y + 1, data);
-			x++;
+			p1_x = (t_3d_vector){p0.x + 1, p0.y, 0, 0};
+			p1_y = (t_3d_vector){p0.x, p0.y + 1, 0, 0};
+			if (p1_x.x < data->width)
+				bresenham(p0, p1_x, data);
+			if (p1_y.y < data->height)
+				bresenham(p0, p1_y, data);
+			p0.x++;
 		}
-		y++;
+		p0.y++;
 	}
 }
+/*
+t_3d_vector	spherical_proj(t_3d_vector vec)
+{
+	double	r;
+	double	theta;
+	double	phi;
+	double	x2;
+	double	y2;
+	double	z2;
 
-// t_3d_vector	spherical_proj(t_3d_vector vec)
-// {
-// 	double	r;
-// 	double	theta;
-// 	double	phi;
-// 	double	x2;
-// 	double	y2;
-// 	double	z2;
+	x2 = vec.x * vec.x;
+	y2 = vec.y * vec.y;
+	z2 = vec.z * vec.z;
 
-// 	x2 = vec.x * vec.x;
-// 	y2 = vec.y * vec.y;
-// 	z2 = vec.z * vec.z;
+	r = sqrt(x2 + y2 + z2);
+	theta = atan2(vec.y, vec.x);
+	phi = atan(sqrt(x2 + y2) / vec.z);
 
-// 	r = sqrt(x2 + y2 + z2);
-// 	theta = atan2(vec.y, vec.x);
-// 	phi = atan(sqrt(x2 + y2) / vec.z);
-
-// 	vec.x = r * sin(phi) * cos(theta);
-// 	vec.y = r * sin(phi) * sin(theta);
-// 	vec.z = r * cos(phi);
-// 	return (vec);
-// }
+	vec.x = r * sin(phi) * cos(theta);
+	vec.y = r * sin(phi) * sin(theta);
+	vec.z = r * cos(phi);
+	return (vec);
+}
+ */

@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 15:05:28 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/23 14:18:27 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/24 10:01:50 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,3 +35,13 @@ int	ft_count_words(char *str, char delin)
 	}
 	return (words + 1);
 }
+/*
+#include <stdio.h>
+int	main(void)
+{
+	char *line = "0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0";
+	int	width;
+
+	width = ft_count_words(line, ' ');
+	printf("width %d\n", width);
+} */

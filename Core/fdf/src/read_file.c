@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 14:50:59 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/22 16:37:07 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/24 14:22:54 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	read_file(char *file_name, t_fdf *data)
 	while (i < data->height)
 	{
 		line = get_next_line(fd);
-		fill_matrix(data->z_matrix[i], data->color_matrix[i], line, data);
+		fill_matrix(data->z_matrix[i], data->color_matrix[i], line);
 		free(line);
 		i++;
 	}

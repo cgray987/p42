@@ -6,10 +6,9 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:25:29 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/23 16:35:18 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/24 14:55:17 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 /*
 |-----------Program Structrure---------------|
@@ -49,10 +48,16 @@
 # include <math.h>
 # include "../lib/mlx/include/MLX42/MLX42.h"
 # include "../lib/libft/includes/libft.h"
-# define WIDTH 500
-# define HEIGHT 500
+# define WIDTH 1920
+# define HEIGHT 1080
 # define PI 3.14159265359
-# define PI_2 PI * 2
+# define PI_2 6.28318530718
+
+typedef struct s_point
+{
+	double	x;
+	double	y;
+}	t_point;
 
 typedef struct s_map
 {
@@ -118,36 +123,33 @@ typedef struct s_color
 	uint32_t	a;
 }	t_color;
 
+void		read_file(char *file_name, t_fdf *data);
+int			map_height(char *file_name);
+int			map_width(char *file_name);
+void		fill_matrix(int *z_matrix_line, int *color_mat_line, char *line);
 
-void	read_file(char *file_name, t_fdf *data);
-int	map_height(char *file_name);
-int	map_width(char *file_name);
-void	fill_matrix(int *z_matrix_line, int *color_mat_line,
-			char *line, t_fdf *data);
-
-void	bresenham(double x, double y, double x1, double y1, t_fdf *data);
-void	zoom_scroll_hook(double xdelta, double ydelta, t_fdf *data);
-void	key_hook_fdf(mlx_key_data_t keydata, t_fdf *data);
-void	draw(t_fdf *data);
-int		color_from_str(char *str);
-t_color	split_color(uint32_t rgba);
-int		merge_color(int r, int g, int b, int a);
+void		bresenham(t_3d_vector vec, t_3d_vector vec1, t_fdf *data);
+void		zoom_scroll_hook(double xdelta, double ydelta, t_fdf *data);
+void		key_hook_fdf(mlx_key_data_t keydata, t_fdf *data);
+void		draw(t_fdf *data);
+int			color_from_str(char *str);
+t_color		split_color(uint32_t rgba);
+int			merge_color(int r, int g, int b, int a);
 
 uint32_t	ft_grad_pt(t_3d_vector start, t_3d_vector end, t_3d_vector curr);
 t_3d_vector	angular_proj(t_3d_vector vec, t_fdf *data);
-void	init_fdf(t_fdf *data, char *str);
-void	reset_window(t_fdf *data);
-int		filename_error(char *fd);
-void	ft_error(void);
+void		init_fdf(t_fdf *data, char *str);
+void		reset_window(t_fdf *data);
+int			filename_error(char *fd);
+void		ft_error(void);
 
-int		menu_hook(t_fdf *data);
-void	data_limits(t_fdf *data);
+void		menu_hook(t_fdf *data);
+void		data_limits(t_fdf *data);
 
-t_3d_vector	sub_vector(t_3d_vector v1, t_3d_vector v2);
-t_3d_vector	add_vector(t_3d_vector v1, t_3d_vector v2);
 t_3d_vector	multiply_vector_x_matrix(t_3d_vector v, t_3d_matrix m);
-double	rad(double deg);
-double	deg(double rad);
+t_3d_vector	multiply_vector_x_constant(t_3d_vector v, int n);
 t_3d_matrix	rotation_matrix(double deg, char axis);
+double		rad(double deg);
+double		deg(double rad);
 
 #endif

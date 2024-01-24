@@ -4,17 +4,17 @@ CC 			:= gcc
 
 LIBMLX_PATH	:= ./lib/mlx
 LIBMLX_NAME	:= /build/libmlx42.a
-LIBMLX		:= $(LIBMLX_PATH)$(LIBMLX_NAME) -ldl -lglfw -pthread -lm
+LIBMLX		:= $(LIBMLX_PATH)$(LIBMLX_NAME) -ldl -lglfw -pthread -lm -g
 
 LIBFT_PATH	:= ./lib/libft/
 LIBFT_NAME	:= libft.a
-LIBFT		:= $(LIBFT_PATH)$(LIBFT_NAME)
+LIBFT		:= $(LIBFT_PATH)$(LIBFT_NAME) -g
 
 INC_LIBMLX	:= -I ./include -I $(LIBMLX_PATH)/include
 INC_LIBFT	:= -I ./libft
 
 SRC_PATH	:= src/
-SRC			:= fdf.c read_file.c draw.c hooks.c color.c init.c error.c math.c read_utils.c
+SRC			:= fdf.c read_file.c draw.c hooks.c color.c init.c error.c matrices.c read_utils.c trig.c
 SRCS		:= $(addprefix $(SRC_PATH), $(SRC))
 
 OBJ_PATH:= obj/
@@ -44,7 +44,8 @@ libft:
 
 libmlx:
 	@echo "$(BOLD)$(BCYAN)[ Making MLX42... ]$(NC)"
-	@cmake $(LIBMLX_PATH) -B $(LIBMLX_PATH)/build && make -C $(LIBMLX_PATH)/build -j4
+	@cmake $(LIBMLX_PATH) -DDEBUG=1 -B $(LIBMLX_PATH)/build && make -C $(LIBMLX_PATH)/build -j4
+# -B for build
 	@echo "$(BOLD)$(GREEN)[ MLX42 ready! ]$(NC)"
 
 $(NAME): $(OBJS)
