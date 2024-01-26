@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:27:56 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/24 16:12:15 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/26 17:17:10 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@ void	init_fdf(t_fdf *data, char *str)
 	data->zoom = WIDTH / (data->width + 20);
 	data->shift_x = (WIDTH / 2) - (.5 * data->width * data->zoom);
 	data->shift_y = HEIGHT / 2;
-	data->rotate_x = atan(sqrt(2));
-	data->rotate_z = -rad(45);
+	data->rotate_x = 0; //atan(sqrt(2));
+	data->rotate_z = 0; //-rad(45);
 	data->rotate_y = 0;
+	data->z_mod = 1;
+	data->projection = 'I';
 	data->mlx_ptr = mlx_init(WIDTH, HEIGHT,
 			ft_strjoin("FDF - ", str + 5), false);
 	data->img_ptr = mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
@@ -40,14 +42,10 @@ void	data_limits(t_fdf *data)
 		data->zoom = 2;
 	if (data->zoom > 100)
 		data->zoom = 100;
-// 	if (data->shift_x > WIDTH)
-// 		data->shift_x = WIDTH;
-// 	if (data->shift_y > HEIGHT)
-// 		data->shift_y = HEIGHT;
-// 	if (data->shift_x < 2)
-// 		data->shift_x = 2;
-// 	if (data->shift_y < 2)
-// 		data->shift_y = 2;
+	if (data->z_mod < 2)
+		data->z_mod = 2;
+	if (data->z_mod > 100)
+		data->z_mod = 100;
 }
 
 void	reset_window(t_fdf *data)
@@ -57,3 +55,12 @@ void	reset_window(t_fdf *data)
 	draw(data);
 	mlx_image_to_window(data->mlx_ptr, data->img_ptr, 0, 0);
 }
+/*
+	if (data->shift_x > WIDTH)
+		data->shift_x = WIDTH;
+	if (data->shift_y > HEIGHT)
+		data->shift_y = HEIGHT;
+	if (data->shift_x < 2)
+		data->shift_x = 2;
+	if (data->shift_y < 2)
+		data->shift_y = 2; */

@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 14:50:59 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/24 14:22:54 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/26 16:18:59 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 //reads map and places into fdf data matrix
 void	find_origin(t_fdf *data)
 {
-	t_3d_vector	center;
+	t_point	center;
 
 	center.x = data->width / 2;
 	center.y = data->height / 2;
 	center.z = (data->z_max - data->z_min) / 2;
-	center.color = 0xFFFFFFFF;
+	// center.color = 0xFFFFFFFF;
 	data->center = center;
 }
 

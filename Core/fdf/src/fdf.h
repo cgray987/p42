@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:25:29 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/24 16:26:28 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/26 18:02:13 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,14 @@
 # define PI 3.14159265359
 # define PI_2 6.28318530718
 
+/* rewrite structs */
+typedef struct s_point
+{
+	float	x;
+	float	y;
+	float	z;
+}	t_point;
+
 /*
 	{x, y, z, color}
  */
@@ -89,7 +97,7 @@ typedef struct s_fdf
 {
 	int			width;
 	int			height;
-	t_3d_vector	center;
+	t_point	center;
 	int			**z_matrix;
 	int			z_max;
 	int			z_min;
@@ -99,6 +107,8 @@ typedef struct s_fdf
 	double		rotate_x;
 	double		rotate_y;
 	double		rotate_z;
+	float		z_mod;
+	char		projection;
 	int			color;
 	int			**color_matrix;
 
@@ -112,6 +122,10 @@ void			read_file(char *file_name, t_fdf *data);
 int				map_height(char *file_name);
 int				map_width(char *file_name);
 void			fill_matrix(int *z_matrix_line, int *color_mat_line, char *line);
+t_3d_vector	rotate_all(t_3d_vector p, t_fdf *data);
+t_3d_vector	rotate_z(t_3d_vector p, t_fdf *data);
+t_3d_vector	rotate_y(t_3d_vector p, t_fdf *data);
+t_3d_vector	rotate_x(t_3d_vector p, t_fdf *data);
 
 void			bresenham(t_3d_vector vec, t_3d_vector vec1, t_fdf *data);
 mlx_scrollfunc	zoom_scroll_hook(double xdelta, double ydelta, t_fdf *data);
@@ -121,7 +135,7 @@ int				color_from_str(char *str);
 t_color			split_color(uint32_t rgba);
 int				merge_color(int r, int g, int b, int a);
 
-uint32_t		ft_grad_pt(t_3d_vector start, t_3d_vector end, t_3d_vector curr);
+uint32_t		grad_pt(t_3d_vector start, t_3d_vector end, t_3d_vector curr);
 t_3d_vector		angular_proj(t_3d_vector vec, t_fdf *data);
 void			init_fdf(t_fdf *data, char *str);
 void			reset_window(t_fdf *data);
@@ -131,9 +145,10 @@ void			ft_error(void);
 void			menu_hook(t_fdf *data);
 void			data_limits(t_fdf *data);
 
-t_3d_vector		multiply_vector_x_matrix(t_3d_vector v, t_3d_matrix m);
+t_3d_vector	multiply_vector_x_matrix(t_3d_vector v, t_3d_matrix m);
 t_3d_vector		multiply_vector_x_constant(t_3d_vector v, int n);
 t_3d_matrix		rotation_matrix(double deg, char axis);
+
 double			rad(double deg);
 double			deg(double rad);
 

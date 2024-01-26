@@ -6,13 +6,13 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 16:43:59 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/17 17:35:30 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/26 18:02:58 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-double	ft_get_position(t_3d_vector start, t_3d_vector end, t_3d_vector curr)
+double	get_position(t_3d_vector start, t_3d_vector end, t_3d_vector curr)
 {
 	double	diag_full;
 	double	diag_first_part;
@@ -24,7 +24,7 @@ double	ft_get_position(t_3d_vector start, t_3d_vector end, t_3d_vector curr)
 	return (1);
 }
 
-uint32_t	ft_grad_pt_color(uint32_t a, uint32_t b, double position)
+uint32_t	grad_pt_color(uint32_t a, uint32_t b, double position)
 {
 	t_color	a_rgba;
 	t_color	b_rgba;
@@ -36,13 +36,13 @@ uint32_t	ft_grad_pt_color(uint32_t a, uint32_t b, double position)
 	color.g = round(a_rgba.g * (1 - position) + b_rgba.g * position);
 	color.b = round(a_rgba.b * (1 - position) + b_rgba.b * position);
 	color.a = round(a_rgba.a * (1 - position) + b_rgba.a * position);
-	return (ft_merge_colors(color.r, color.g, color.b, color.a));
+	return (merge_color(color.r, color.g, color.b, color.a));
 }
 
-uint32_t	ft_grad_pt(t_3d_vector start, t_3d_vector end, t_3d_vector curr)
+uint32_t	grad_pt(t_3d_vector start, t_3d_vector end, t_3d_vector curr)
 {
 	double	position;
 
-	position = ft_get_position(start, end, curr);
-	return (ft_grad_pt_color(start.color, end.color, position));
+	position = get_position(start, end, curr);
+	return (grad_pt_color(start.color, end.color, position));
 }

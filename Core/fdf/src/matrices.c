@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   math.c                                             :+:      :+:    :+:   */
+/*   matrices.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:10:53 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/24 14:51:28 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/26 16:17:42 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 /* returns vector multiplied by an integer */
-t_3d_vector	multiply_vector_x_constant(t_3d_vector v, int n)
+t_point	multiply_vector_x_constant(t_point v, int n)
 {
 	v.x = n * v.x;
 	v.y = n * v.y;
@@ -22,7 +22,7 @@ t_3d_vector	multiply_vector_x_constant(t_3d_vector v, int n)
 }
 
 /* returns vector product of vector x matrix */
-t_3d_vector	multiply_vector_x_matrix(t_3d_vector v, t_3d_matrix m)
+t_point	multiply_vector_x_matrix(t_point v, t_3d_matrix m)
 {
 	double	*lv;
 
