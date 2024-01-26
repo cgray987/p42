@@ -6,15 +6,15 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 15:18:25 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/26 16:43:45 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/26 18:18:57 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-t_point	make_point(int x, int y, int z)
+t_3d_vector	make_point(int x, int y, int z)
 {
-	t_point	p;
+	t_3d_vector	p;
 
 	p.x = x;
 	p.y = y;
@@ -22,7 +22,7 @@ t_point	make_point(int x, int y, int z)
 	return (p);
 }
 
-t_point	rotate_x(t_point p, t_fdf *data)
+t_3d_vector	rotate_x(t_3d_vector p, t_fdf *data)
 {
 	float	t_z;
 	float	t_y;
@@ -34,7 +34,7 @@ t_point	rotate_x(t_point p, t_fdf *data)
 	return (p);
 }
 
-t_point	rotate_y(t_point p, t_fdf *data)
+t_3d_vector	rotate_y(t_3d_vector p, t_fdf *data)
 {
 	float	t_z;
 	float	t_x;
@@ -46,7 +46,7 @@ t_point	rotate_y(t_point p, t_fdf *data)
 	return (p);
 }
 
-t_point	rotate_z(t_point p, t_fdf *data)
+t_3d_vector	rotate_z(t_3d_vector p, t_fdf *data)
 {
 	float	t_x;
 	float	t_y;
@@ -58,7 +58,7 @@ t_point	rotate_z(t_point p, t_fdf *data)
 	return (p);
 }
 
-t_point	rotate_all(t_point p, t_fdf *data)
+t_3d_vector	rotate_all(t_3d_vector p, t_fdf *data)
 {
 	p.x -= data->center.x;
 	p.y -= data->center.y;
