@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:25:29 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/26 18:02:13 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/28 19:16:00 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,42 +48,30 @@
 # include <math.h>
 # include "../lib/mlx/include/MLX42/MLX42.h"
 # include "../lib/libft/includes/libft.h"
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 1280
+# define HEIGHT 720
 # define PI 3.14159265359
 # define PI_2 6.28318530718
 
-/* rewrite structs */
-typedef struct s_point
+/* 3 colors based on input flag */
+typedef struct s_color_scheme
 {
-	float	x;
-	float	y;
-	float	z;
-}	t_point;
+	int			flag;
+	uint32_t	high;
+	uint32_t	neutral;
+	uint32_t	low;
+}	t_color_scheme;
 
 /*
 	{x, y, z, color}
  */
 typedef struct s_3d_vector
 {
-	double		x;
-	double		y;
-	double		z;
+	float		x;
+	float		y;
+	float		z;
 	uint32_t	color;
 }	t_3d_vector;
-
-/*
-	3x4 Matrix
-	i- {x, y, z, color;
-	j-  x, y, z, color;
-	k-  x, y, z, color};
- */
-typedef struct s_3d_matrix
-{
-	t_3d_vector	i;
-	t_3d_vector	j;
-	t_3d_vector	k;
-}	t_3d_matrix;
 
 typedef struct s_color
 {
@@ -95,68 +83,109 @@ typedef struct s_color
 
 typedef struct s_fdf
 {
-	int			width;
-	int			height;
-	t_point	center;
-	int			**z_matrix;
-	int			z_max;
-	int			z_min;
-	int			zoom;
-	int			shift_x;
-	int			shift_y;
-	double		rotate_x;
-	double		rotate_y;
-	double		rotate_z;
-	float		z_mod;
-	char		projection;
-	int			color;
-	int			**color_matrix;
+	int				width;
+	int				height;
+	t_3d_vector		center;
+	int				**z_matrix;
+	int				z_max;
+	int				z_min;
+	int				zoom;
+	int				shift_x;
+	int				shift_y;
+	float			rotate_x;
+	float			rotate_y;
+	float			rotate_z;
+	float			z_mod;
+	char			projection;
+	int				color;
+	int				**color_matrix;
+	t_color_scheme	color_scheme;
 
-	mlx_t		*mlx_ptr;
-	mlx_image_t	*img_ptr;
-	mlx_image_t	*img_menu;
+	mlx_t			*mlx_ptr;
+	mlx_image_t		*img_ptr;
+	mlx_image_t		*img_menu;
 
 }	t_fdf;
 
+/* ------------------------FDF------------------------------ */
+/* ------------------------init.c------------------------------ */
+void			init_fdf(t_fdf *data, char *str);
+void			reset_window(t_fdf *data);
+void			clean_img(t_fdf *data);
+void			clear_rot(t_fdf *data);
+void			data_limits(t_fdf *data);
+
+/* ------------------------read_file.c------------------------------ */
 void			read_file(char *file_name, t_fdf *data);
+
+/* ------------------------read_utils.c------------------------------ */
 int				map_height(char *file_name);
 int				map_width(char *file_name);
-void			fill_matrix(int *z_matrix_line, int *color_mat_line, char *line);
-t_3d_vector	rotate_all(t_3d_vector p, t_fdf *data);
-t_3d_vector	rotate_z(t_3d_vector p, t_fdf *data);
-t_3d_vector	rotate_y(t_3d_vector p, t_fdf *data);
-t_3d_vector	rotate_x(t_3d_vector p, t_fdf *data);
+void			fill_matrix(int *z_matrix_line,
+					int *color_mat_line, char *line);
 
-void			bresenham(t_3d_vector vec, t_3d_vector vec1, t_fdf *data);
-mlx_scrollfunc	zoom_scroll_hook(double xdelta, double ydelta, t_fdf *data);
-mlx_keyfunc		key_hook_fdf(mlx_key_data_t keydata, t_fdf *data);
+/* ------------------------draw.c------------------------------ */
 void			draw(t_fdf *data);
+void			bresenham(t_3d_vector vec, t_3d_vector vec1, t_fdf *data);
+
+/* ------------------------projections.c------------------------------ */
+t_3d_vector		iso_proj(t_3d_vector p, t_fdf *data);
+t_3d_vector		para_proj(t_3d_vector p, t_fdf *data);
+t_3d_vector		front_proj(t_3d_vector p, t_fdf *data);
+t_3d_vector		right_proj(t_3d_vector p, t_fdf *data);
+t_3d_vector		top_proj(t_3d_vector p, t_fdf *data);
+
+/* ------------------------rotate.c------------------------------ */
+t_3d_vector		rotate_all(t_3d_vector p, t_fdf *data);
+t_3d_vector		rotate_z(t_3d_vector p, t_fdf *data);
+t_3d_vector		rotate_y(t_3d_vector p, t_fdf *data);
+t_3d_vector		rotate_x(t_3d_vector p, t_fdf *data);
+
+/* ------------------------color.c------------------------------ */
+void			color_schemes(t_fdf *data);
+uint32_t		get_color(t_3d_vector vec, t_fdf *data);
 int				color_from_str(char *str);
 t_color			split_color(uint32_t rgba);
 int				merge_color(int r, int g, int b, int a);
 
+/* ------------------------grad.c------------------------------ */
 uint32_t		grad_pt(t_3d_vector start, t_3d_vector end, t_3d_vector curr);
-t_3d_vector		angular_proj(t_3d_vector vec, t_fdf *data);
-void			init_fdf(t_fdf *data, char *str);
-void			reset_window(t_fdf *data);
+
+/* ------------------------hooks.c------------------------------ */
+void			menu_hook(t_fdf *data);
+mlx_scrollfunc	zoom_scroll_hook(double xdelta, double ydelta, t_fdf *data);
+mlx_keyfunc		key_hook_fdf(mlx_key_data_t keydata, t_fdf *data);
+
+/* ------------------------hooks2.c------------------------------ */
+void			key_colors(mlx_key_data_t keydata, t_fdf *data);
+void			call_keys(mlx_key_data_t keydata, t_fdf *data);
+void			key_proj(mlx_key_data_t keydata, t_fdf *data);
+void			key_shift(mlx_key_data_t keydata, t_fdf *data);
+
+/* ------------------------error.c------------------------------ */
 int				filename_error(char *fd);
 void			ft_error(void);
 
-void			menu_hook(t_fdf *data);
-void			data_limits(t_fdf *data);
+/* ------------------------trig.c------------------------------ */
+float			rad(float deg);
+float			deg(float rad);
 
+/* ------------------------NO LONGER USED------------------------------ */
+/* t_3d_vector		angular_proj(t_3d_vector vec, t_fdf *data);
 t_3d_vector	multiply_vector_x_matrix(t_3d_vector v, t_3d_matrix m);
 t_3d_vector		multiply_vector_x_constant(t_3d_vector v, int n);
-t_3d_matrix		rotation_matrix(double deg, char axis);
+t_3d_matrix		rotation_matrix(float deg, char axis);
+t_3d_vector	spherical_proj(t_3d_vector vec);
 
-double			rad(double deg);
-double			deg(double rad);
+	// 3x4 Matrix
+	// i- {x, y, z, color;
+	// j-  x, y, z, color;
+	// k-  x, y, z, color};
+typedef struct s_3d_matrix
+{
+	t_3d_vector	i;
+	t_3d_vector	j;
+	t_3d_vector	k;
+}	t_3d_matrix; */
 
 #endif
-/* typedef struct s_map
-{
-	int			x;
-	int			y;
-	int			z;
-	uint32_t	color;
-}	t_map; */

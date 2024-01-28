@@ -6,11 +6,68 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:46:38 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/16 16:12:48 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/28 18:57:52 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+/*
+	Sets predetermined color schemes
+	Keys- z, x, c, v
+ */
+void	color_schemes(t_fdf *data)
+{
+	if (data->color_scheme.flag == '1')
+	{
+		data->color_scheme.high = 0x09ed05FF;
+		data->color_scheme.neutral = 0xFFFFFFFF;
+		data->color_scheme.low = 0xC28F8FFF;
+	}
+	if (data->color_scheme.flag == '2')
+	{
+		data->color_scheme.high = 0xff002bFF;
+		data->color_scheme.neutral = 0x010101FF;
+		data->color_scheme.low = 0xFFe600FF;
+	}
+	if (data->color_scheme.flag == '3')
+	{
+		data->color_scheme.high = 0xb4eaf0FF;
+		data->color_scheme.neutral = 0x3d4f91FF;
+		data->color_scheme.low = 0xdb84d5FF;
+	}
+	if (data->color_scheme.flag == '4')
+	{
+		data->color_scheme.high = 0xff0088FF;
+		data->color_scheme.neutral = 0xFFFFFFFF;
+		data->color_scheme.low = 0x4ca63cFF;
+	}
+}
+
+/*
+	returns color based on map color,
+	if no map color, retrieve from color scheme
+	--do not like this method, would rather use gradient
+		between z_min and z_max
+ */
+uint32_t	get_color(t_3d_vector vec, t_fdf *data)
+{
+	uint32_t	color;
+
+	color_schemes(data);
+	if (data->color_matrix[(int)vec.y][(int)vec.x])
+	{
+		color = data->color_matrix[(int)vec.y][(int)vec.x];
+		return (color);
+	}
+	else if (vec.z > 0)
+		color = data->color_scheme.high;
+	else if (vec.z < 0)
+		color = data->color_scheme.low;
+	else
+		color = data->color_scheme.neutral;
+	return (color);
+}
 
 /* given individual rgba values, return int color */
 int	merge_color(int r, int g, int b, int a)

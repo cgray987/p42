@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 14:50:59 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/26 16:18:59 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/28 18:45:26 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 //reads map and places into fdf data matrix
 void	find_origin(t_fdf *data)
 {
-	t_point	center;
+	t_3d_vector	center;
 
 	center.x = data->width / 2;
 	center.y = data->height / 2;
 	center.z = (data->z_max - data->z_min) / 2;
-	// center.color = 0xFFFFFFFF;
 	data->center = center;
 }
 
+// finds min and max z value
 void	z_lim(t_fdf *data)
 {
 	int	max;
@@ -51,6 +51,7 @@ void	z_lim(t_fdf *data)
 	data->z_min = min;
 }
 
+//mallocs matricies for height and colors
 void	read_malloc(char *file_name, t_fdf *data)
 {
 	int	i;
@@ -68,6 +69,8 @@ void	read_malloc(char *file_name, t_fdf *data)
 	}
 }
 
+/* reads fd and fills z_matrix and color_matrix in data.
+also finds origin and z limits */
 void	read_file(char *file_name, t_fdf *data)
 {
 	int		fd;

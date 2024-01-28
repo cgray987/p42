@@ -6,16 +6,16 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 16:43:59 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/26 18:02:58 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/28 16:49:10 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-double	get_position(t_3d_vector start, t_3d_vector end, t_3d_vector curr)
+float	get_position(t_3d_vector start, t_3d_vector end, t_3d_vector curr)
 {
-	double	diag_full;
-	double	diag_first_part;
+	float	diag_full;
+	float	diag_first_part;
 
 	diag_full = sqrt(pow(end.x - start.x, 2) + pow(end.y - start.y, 2));
 	diag_first_part = sqrt(pow(curr.x - start.x, 2) + pow(curr.y - start.y, 2));
@@ -24,7 +24,7 @@ double	get_position(t_3d_vector start, t_3d_vector end, t_3d_vector curr)
 	return (1);
 }
 
-uint32_t	grad_pt_color(uint32_t a, uint32_t b, double position)
+uint32_t	grad_pt_color(uint32_t a, uint32_t b, float position)
 {
 	t_color	a_rgba;
 	t_color	b_rgba;
@@ -41,7 +41,7 @@ uint32_t	grad_pt_color(uint32_t a, uint32_t b, double position)
 
 uint32_t	grad_pt(t_3d_vector start, t_3d_vector end, t_3d_vector curr)
 {
-	double	position;
+	float	position;
 
 	position = get_position(start, end, curr);
 	return (grad_pt_color(start.color, end.color, position));

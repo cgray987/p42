@@ -14,7 +14,9 @@ INC_LIBMLX	:= -I ./include -I $(LIBMLX_PATH)/include
 INC_LIBFT	:= -I ./libft
 
 SRC_PATH	:= src/
-SRC			:= fdf.c read_file.c draw.c hooks.c color.c init.c error.c matrices.c read_utils.c trig.c rotate.c grad.c
+SRC			:= fdf.c read_file.c draw.c hooks.c color.c init.c error.c \
+				matrices.c read_utils.c trig.c rotate.c grad.c hooks2.c \
+				projections.c
 SRCS		:= $(addprefix $(SRC_PATH), $(SRC))
 
 OBJ_PATH:= obj/
