@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:25:29 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/28 19:16:00 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/29 15:48:00 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ typedef struct s_fdf
 /* ------------------------init.c------------------------------ */
 void			init_fdf(t_fdf *data, char *str);
 void			reset_window(t_fdf *data);
-void			clean_img(t_fdf *data);
+void			clean_img(mlx_image_t *image);
 void			clear_rot(t_fdf *data);
 void			data_limits(t_fdf *data);
 
@@ -153,8 +153,8 @@ uint32_t		grad_pt(t_3d_vector start, t_3d_vector end, t_3d_vector curr);
 
 /* ------------------------hooks.c------------------------------ */
 void			menu_hook(t_fdf *data);
-mlx_scrollfunc	zoom_scroll_hook(double xdelta, double ydelta, t_fdf *data);
-mlx_keyfunc		key_hook_fdf(mlx_key_data_t keydata, t_fdf *data);
+mlx_scrollfunc	zoom_scroll_hook(double xdelta, double ydelta, void *param);
+mlx_keyfunc		key_hook_fdf(mlx_key_data_t keydata, void *param);
 
 /* ------------------------hooks2.c------------------------------ */
 void			key_colors(mlx_key_data_t keydata, t_fdf *data);

@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:27:56 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/28 19:29:47 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/29 13:25:44 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	init_fdf(t_fdf *data, char *str)
 	data->mlx_ptr = mlx_init(WIDTH, HEIGHT,
 			ft_strjoin("FDF - ", str + 5), false);
 	data->img_ptr = mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
+	data->img_menu = mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
 }
 
 /* Controls rotation, zoom, z_mod limits */
@@ -60,7 +61,7 @@ void	clear_rot(t_fdf *data)
 }
 
 /* clears image of previous drawings */
-void	clean_img(t_fdf *data)
+void	clean_img(mlx_image_t *image)
 {
 	int	i;
 	int	j;
@@ -70,7 +71,7 @@ void	clean_img(t_fdf *data)
 	{
 		j = -1;
 		while (++j < HEIGHT)
-			mlx_put_pixel(data->img_ptr, i, j, 0x00000000);
+			mlx_put_pixel(image, i, j, 0x00000000);
 	}
 }
 /*

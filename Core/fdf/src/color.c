@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:46:38 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/28 18:57:52 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/29 16:21:51 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ void	color_schemes(t_fdf *data)
 	if (data->color_scheme.flag == '1')
 	{
 		data->color_scheme.high = 0x09ed05FF;
-		data->color_scheme.neutral = 0xFFFFFFFF;
-		data->color_scheme.low = 0xC28F8FFF;
+		data->color_scheme.neutral = 0xC28F8FFF;
+		data->color_scheme.low = 0xFFFFFFFF;
 	}
 	if (data->color_scheme.flag == '2')
 	{
 		data->color_scheme.high = 0xff002bFF;
-		data->color_scheme.neutral = 0x010101FF;
-		data->color_scheme.low = 0xFFe600FF;
+		data->color_scheme.neutral = 0xFFe600FF;
+		data->color_scheme.low = 0x010101FF;
 	}
 	if (data->color_scheme.flag == '3')
 	{
@@ -39,8 +39,8 @@ void	color_schemes(t_fdf *data)
 	if (data->color_scheme.flag == '4')
 	{
 		data->color_scheme.high = 0xff0088FF;
-		data->color_scheme.neutral = 0xFFFFFFFF;
-		data->color_scheme.low = 0x4ca63cFF;
+		data->color_scheme.neutral = 0x4ca63cFF;
+		data->color_scheme.low = 0xFFFFFFFF;
 	}
 }
 
@@ -53,19 +53,22 @@ void	color_schemes(t_fdf *data)
 uint32_t	get_color(t_3d_vector vec, t_fdf *data)
 {
 	uint32_t	color;
+	int			check;
 
+	color = 0xFFFFFFFF;
+	check = data->color_matrix[(int)vec.y][(int)vec.x];
 	color_schemes(data);
-	if (data->color_matrix[(int)vec.y][(int)vec.x])
+	if (check != 0)
 	{
 		color = data->color_matrix[(int)vec.y][(int)vec.x];
 		return (color);
 	}
-	else if (vec.z > 0)
+	else if (vec.z == data->z_max)
 		color = data->color_scheme.high;
-	else if (vec.z < 0)
-		color = data->color_scheme.low;
-	else
+	else if (vec.z > 0)
 		color = data->color_scheme.neutral;
+	else
+		color = data->color_scheme.low;
 	return (color);
 }
 

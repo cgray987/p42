@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:30:52 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/28 19:31:54 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/29 15:50:54 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,12 @@ void	menu_hook(t_fdf *data)
 }
 
 /* uses MLX ydelta mouse info to inc/dec zoom level */
-mlx_scrollfunc	zoom_scroll_hook(double xdelta, double ydelta, t_fdf *data)
+mlx_scrollfunc	zoom_scroll_hook(double xdelta, double ydelta, void *param)
 {
-	clean_img(data);
+	t_fdf	*data;
+
+	data = (t_fdf *)param;
+	clean_img(data->img_ptr);
 	(void)xdelta;
 	if (ydelta > 0)
 		data->zoom += 1;
@@ -46,7 +49,7 @@ mlx_scrollfunc	zoom_scroll_hook(double xdelta, double ydelta, t_fdf *data)
 		data->zoom -= 1;
 	data_limits(data);
 	draw(data);
-	return (0);
+	return (NULL);
 }
 
 /* Hooks for WASD to shift map */
@@ -70,6 +73,8 @@ void	key_shift(mlx_key_data_t keydata, t_fdf *data)
 	if (keydata.key == MLX_KEY_EQUAL
 		&& (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
 		data->z_mod -= .1;
+	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+		mlx_close_window(data->mlx_ptr);
 	data_limits(data);
 }
 
@@ -116,8 +121,11 @@ void	key_proj(mlx_key_data_t keydata, t_fdf *data)
 	Z axis:	7	9
 	(keydata.action == MLX_REPEAT ||
  */
-mlx_keyfunc	key_hook_fdf(mlx_key_data_t keydata, t_fdf *data)
+mlx_keyfunc	key_hook_fdf(mlx_key_data_t keydata, void *param)
 {
+	t_fdf	*data;
+
+	data = (t_fdf *)param;
 	call_keys(keydata, data);
 	if (keydata.key == MLX_KEY_KP_5
 		&& (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
@@ -137,9 +145,7 @@ mlx_keyfunc	key_hook_fdf(mlx_key_data_t keydata, t_fdf *data)
 	if (keydata.key == MLX_KEY_KP_9
 		&& (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
 		data->rotate_z += rad(5);
-	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-		mlx_close_window(data->mlx_ptr);
 	data_limits(data);
 	draw(data);
-	return (0);
+	return (NULL);
 }
