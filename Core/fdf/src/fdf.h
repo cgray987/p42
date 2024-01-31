@@ -6,38 +6,71 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:25:29 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/29 15:48:00 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/31 15:42:33 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
 |-----------Program Structrure---------------|
-	1. read map
+	1.	read map
 		- get height of map -- how many lines
 		- get width of map -- how many numbers in each line
 		- allocate mem for int matrix using H x W
 		- read map and place into matrix
 			--ft_split && ft_atoi
-	2. Bresenham alg to find points to draw
-	3. Draw function to draw lines between each point
-	4. Convert to 3D
-		-isometric formulas:
-			x' = (x - y) * cos(theta);
-			y' = (x + y) * sin(theta) - z;
-		-x' and y' are 3D transformed coords
-		-theta is viewing angle
-		-z is height
-	5. Key/mouse input
-		- base just requires ESC to close window
-		- bonus to use arrow keys/WASD
-		- scroll wheel for zoom level
-		- mouse for rotation? maybe Q/E to rotate around center
-	6. Bonuses
-		-extra projection -- parallel/conic
-		-zoom in and out
-		-translation
-		-rotation
-		-another bonus? colors?
+	2.	initialize varialbles
+		- zoom/translation to center
+		- rotations/z_mod
+		-create window and image pointer
+	3. Draw on Screen
+		-iterate thru int matrix
+		-assign color to point based on scheme or map data
+		-convert point to 3d
+			-transform point
+				- ISO/PARALLEL/TOP VIEW
+				- FRONT VIEW/SIDE VIEW
+			- Rotate point
+				-translate each point to center
+				-rotate based on axis
+				-translate back
+		-bresenham alg
+			-point and next point
+			-find steps (slopes) between each point, &
+			normalize together
+			-plot line between points in image
+				-each pixel uses gradient between two points
+	4. Loop/Hooks
+				🔲CONTROLS🔲
+		Translate:				WASD
+		Zoom:					Mousewheel
+		Colors:					Z, X, C, V
+								🌵 🔥 🧊 🌸
+		Raise/Lower Height:		-/+
+		Projections:
+				ISOMETRIC:		1
+				PARALLEL: 		2
+				FRONT VIEW:		3
+				TOP VIEW:		4
+				SIDE VIEW:		5
+		Rotations:				(NUMPAD KEYS)
+								(-)		(+)
+				X-AXIS:			5		8
+				Y-AXIS:			4		6
+				Z-AXIS:			7		9
+
+		-zoom:multiplies points by value 1:100
+		-shift: adds points by value
+		-rotation: uses rotation matrix for each axis
+			-adds/subtracts 5 degrees per input
+		-z_mod uses z_height / z_mod to change elevations
+		-Projection uses different projgections to transform
+		points.
+			-ISO uses view angle of 30 degrees (PI/6)
+			-PARALLEL uses view angle of 45 degrees (PI/4)
+		-colors cycle through predetermined color schemes
+
+
+
 |-----------------------------------------------|
 */
 #ifndef FDF_H
@@ -48,12 +81,16 @@
 # include <math.h>
 # include "../lib/mlx/include/MLX42/MLX42.h"
 # include "../lib/libft/includes/libft.h"
-# define WIDTH 1280
-# define HEIGHT 720
+# define WIDTH 1920
+# define HEIGHT 1080
 # define PI 3.14159265359
 # define PI_2 6.28318530718
 
-/* 3 colors based on input flag */
+/* colors based on z_height
+	-high: z_max = high
+	-neutral: z_max > neutral > 0
+	-low: 0 >= low
+ */
 typedef struct s_color_scheme
 {
 	int			flag;
@@ -81,6 +118,12 @@ typedef struct s_color
 	uint32_t	a;
 }	t_color;
 
+/*
+	General meta variables. Initialized in init.c,
+	populated from the map in read_file.c
+	modified by hooks.c (input)
+	Contains window and img pointer needed for MLX42
+ */
 typedef struct s_fdf
 {
 	int				width;
@@ -97,13 +140,11 @@ typedef struct s_fdf
 	float			rotate_z;
 	float			z_mod;
 	char			projection;
-	int				color;
 	int				**color_matrix;
 	t_color_scheme	color_scheme;
 
 	mlx_t			*mlx_ptr;
 	mlx_image_t		*img_ptr;
-	mlx_image_t		*img_menu;
 
 }	t_fdf;
 

@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:46:38 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/29 16:21:51 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/30 13:59:00 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,10 @@ void	color_schemes(t_fdf *data)
 uint32_t	get_color(t_3d_vector vec, t_fdf *data)
 {
 	uint32_t	color;
-	int			check;
 
 	color = 0xFFFFFFFF;
-	check = data->color_matrix[(int)vec.y][(int)vec.x];
 	color_schemes(data);
-	if (check != 0)
+	if (data->color_matrix[(int)vec.y][(int)vec.x] != 0)
 	{
 		color = data->color_matrix[(int)vec.y][(int)vec.x];
 		return (color);

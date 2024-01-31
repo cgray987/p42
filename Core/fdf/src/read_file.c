@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 14:50:59 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/28 18:45:26 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/31 15:15:01 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,16 @@ void	read_malloc(char *file_name, t_fdf *data)
 	data->width = map_width(file_name);
 	data->z_matrix = (int **)malloc(sizeof(int *) * (data->height + 1));
 	data->color_matrix = (int **)malloc(sizeof(int *) * (data->height + 1));
+	if (!data->z_matrix || !data->color_matrix)
+		return ;
 	i = 0;
 	while (i < data->height)
 	{
 		data->z_matrix[i] = (int *)malloc(sizeof(int) * (data->width + 1));
-		data->color_matrix[i] = (int *)malloc(sizeof(int) * (data->width + 1));
+		data->color_matrix[i] = (int *)ft_calloc(sizeof(int),
+				(data->width + 1));
+		if (!data->z_matrix[i] || !data->color_matrix[i])
+			return ;
 		i++;
 	}
 }
@@ -88,8 +93,8 @@ void	read_file(char *file_name, t_fdf *data)
 		i++;
 	}
 	close(fd);
-	data->z_matrix[i] = '\0';
-	data->color_matrix[i] = '\0';
+	data->z_matrix[i] = NULL;
+	data->color_matrix[i] = NULL;
 	z_lim(data);
 	find_origin(data);
 }

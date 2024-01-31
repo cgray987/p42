@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:28:07 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/24 14:21:12 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/30 17:16:28 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,19 @@ int	map_height(char *file_name)
 {
 	int		fd;
 	int		height;
+	char	*line;
 
 	fd = open(file_name, O_RDONLY, 0);
 	height = 0;
-	while (get_next_line(fd))
+	line = get_next_line(fd);
+	while (line)
+	{
 		height++;
+		free(line);
+		line = get_next_line(fd);
+	}
 	close(fd);
+	free(line);
 	return (height);
 }
 
@@ -57,9 +64,13 @@ void	fill_matrix(int *z_matrix_line, int *color_mat_line,
 	{
 		element = ft_split(matrix[i], ',');
 		if (element[1])
+		{
 			color_mat_line[i] = color_from_str(element[1]);
+			free(element[1]);
+		}
 		z_matrix_line[i] = ft_atoi(matrix[i]);
 		free(matrix[i]);
+		free(element[0]);
 		free(element);
 		i++;
 	}

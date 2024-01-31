@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 17:40:45 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/29 13:21:24 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/31 14:49:30 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	key_colors(mlx_key_data_t keydata, t_fdf *data)
 
 void	call_keys(mlx_key_data_t keydata, t_fdf *data)
 {
-	clean_img(data->img_ptr);
 	key_shift(keydata, data);
 	key_proj(keydata, data);
 	key_colors(keydata, data);
+	clean_img(data->img_ptr);
 }

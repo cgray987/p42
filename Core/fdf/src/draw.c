@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:48:17 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/28 18:19:48 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/31 15:05:15 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,4 @@ void	draw(t_fdf *data)
 		p0.y++;
 	}
 	mlx_image_to_window(data->mlx_ptr, data->img_ptr, 0, 0);
-	menu_hook(data);
 }

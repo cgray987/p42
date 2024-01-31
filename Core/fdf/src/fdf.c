@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 11:55:02 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/29 16:23:26 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/31 15:08:59 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,22 @@ void	show_controls_terminal(void)
 	ft_printf("\tZ-AXIS:\t\t7\t9\n");
 }
 
+void	free_fdf(t_fdf *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->height)
+	{
+		free(data->color_matrix[i]);
+		free(data->z_matrix[i]);
+		i++;
+	}
+	free(data->z_matrix);
+	free(data->color_matrix);
+	free(data);
+}
+
 int	main(int argc, char **argv)
 {
 	t_fdf	*data;
@@ -49,12 +65,13 @@ int	main(int argc, char **argv)
 		mlx_key_hook(data->mlx_ptr, (void *)key_hook_fdf, (void *)data);
 		mlx_loop(data->mlx_ptr);
 		mlx_terminate(data->mlx_ptr);
-		return (0);
+		free_fdf(data);
+		return (EXIT_SUCCESS);
 	}
 	else
 	{
 		ft_printf("Not enough arguments.\n");
-		return (1);
+		return (EXIT_FAILURE);
 	}
 }
 /* print map

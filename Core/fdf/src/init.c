@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:27:56 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/29 13:25:44 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/31 15:19:00 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
  */
 void	init_fdf(t_fdf *data, char *str)
 {
+	char	*title;
+
 	data->zoom = WIDTH / (data->width + 100);
 	data->shift_x = (WIDTH / 2) - (.25 * data->width * data->zoom);
 	data->shift_y = (HEIGHT / 2) - (.5 * data->height * data->zoom);
@@ -27,11 +29,16 @@ void	init_fdf(t_fdf *data, char *str)
 	data->z_mod = 1;
 	data->color_scheme.flag = '1';
 	data->projection = 'I';
-	data->mlx_ptr = mlx_init(WIDTH, HEIGHT,
-			ft_strjoin("FDF - ", str + 5), false);
+	title = ft_strjoin("FDF - ", str + 5);
+	data->mlx_ptr = mlx_init(WIDTH, HEIGHT, title, false);
+	if (!data->mlx_ptr)
+		ft_error();
 	data->img_ptr = mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
-	data->img_menu = mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
+	if (!data->img_ptr)
+		ft_error();
+	free(title);
 }
+// data->img_menu = mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
 
 /* Controls rotation, zoom, z_mod limits */
 void	data_limits(t_fdf *data)

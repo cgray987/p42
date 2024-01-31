@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 18:10:56 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/28 18:30:08 by cgray            ###   ########.fr       */
+/*   Updated: 2024/01/31 15:40:20 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_3d_vector	iso_proj(t_3d_vector p, t_fdf *data)
 	float	t_y;
 	float	theta;
 
-	theta = 0.523599;
+	theta = rad(30);
 	t_x = p.x;
 	t_y = p.y;
 	p.x = ((t_x - t_y) * cos(theta)) * data->zoom + data->shift_x;
@@ -40,7 +40,7 @@ t_3d_vector	para_proj(t_3d_vector p, t_fdf *data)
 	float	t_z;
 	float	theta;
 
-	theta = 0.7854;
+	theta = PI / 4;
 	t_z = p.z;
 	p.x = (p.x - (t_z / data->z_mod)) * cos(theta) * data->zoom + data->shift_x;
 	p.y = (p.y - (t_z / data->z_mod)) * sin(theta) * data->zoom + data->shift_y;

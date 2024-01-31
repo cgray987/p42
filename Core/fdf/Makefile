@@ -1,5 +1,5 @@
 NAME		:= fdf
-CFLAGS		:=-Wall -Wextra -Werror #-fsanitize=address
+CFLAGS		:=-Wall -Wextra -Werror -g
 CC 			:= gcc
 
 LIBMLX_PATH	:= ./lib/mlx
