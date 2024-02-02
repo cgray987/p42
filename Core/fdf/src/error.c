@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 15:32:40 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/24 14:50:04 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/02 14:08:51 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	filename_error(char *fd)
 	filename_len = ft_strlen(filename);
 	if (filename_len < 4)
 	{
-		ft_printf("Filename too short. 📉\n");
+		ft_printf("Filename too short to contain extension. 📉\n");
 		return (1);
 	}
 	if (ft_strncmp(&filename[filename_len - 4], ".fdf", 4))

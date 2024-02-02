@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 14:41:05 by cgray             #+#    #+#             */
-/*   Updated: 2023/12/15 17:28:56 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/02 14:53:37 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ void	*ft_calloc(size_t count, size_t size)
 	ptr = malloc(max);
 	if (!ptr)
 		return (NULL);
-	ft_bzero(ptr, max);
+	ft_memset(ptr, 0, max);
 	return (ptr);
 }

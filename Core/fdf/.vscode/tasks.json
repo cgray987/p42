@@ -5,7 +5,7 @@
 			"label": "run makefile",
 			"command": "make",
 			"args": [
-				"all"
+				"re"
 			],
 			"problemMatcher": [],
 			"group": {

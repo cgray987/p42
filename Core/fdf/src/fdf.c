@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 11:55:02 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/31 15:08:59 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/02 17:30:45 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@ void	show_controls_terminal(void)
 	ft_printf("\tZ-AXIS:\t\t7\t9\n");
 }
 
+/* frees t_fdf data
+	-z_matrix and color_matrix malloc'd in read_malloc
+	-printf("Freeing color_matrix[%d] = %p\n", i,data->color_matrix[i]);
+ */
 void	free_fdf(t_fdf *data)
 {
 	int	i;
@@ -39,8 +43,8 @@ void	free_fdf(t_fdf *data)
 	i = 0;
 	while (i < data->height)
 	{
-		free(data->color_matrix[i]);
 		free(data->z_matrix[i]);
+		free((void *)data->color_matrix[i]);
 		i++;
 	}
 	free(data->z_matrix);

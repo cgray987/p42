@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:46:38 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/30 13:59:00 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/02 14:21:18 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ uint32_t	get_color(t_3d_vector vec, t_fdf *data)
 	}
 	else if (vec.z == data->z_max)
 		color = data->color_scheme.high;
-	else if (vec.z > 0)
-		color = data->color_scheme.neutral;
-	else
+	else if (vec.z >= data->z_min)
 		color = data->color_scheme.low;
+	else
+		color = data->color_scheme.neutral;
 	return (color);
 }
 

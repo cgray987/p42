@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 14:50:59 by cgray             #+#    #+#             */
-/*   Updated: 2024/01/31 15:15:01 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/02 17:33:12 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,11 @@ void	z_lim(t_fdf *data)
 	data->z_min = min;
 }
 
-//mallocs matricies for height and colors
+/* mallocs matricies for height and colors
+	- must malloc extra space in rows because of my shitty code
+	  to prevent overwriting memory
+		-printf("allocating %p\n", data->color_matrix[i]);
+ */
 void	read_malloc(char *file_name, t_fdf *data)
 {
 	int	i;
@@ -63,11 +67,12 @@ void	read_malloc(char *file_name, t_fdf *data)
 	if (!data->z_matrix || !data->color_matrix)
 		return ;
 	i = 0;
+	data->z_matrix[data->height] = NULL;
 	while (i < data->height)
 	{
-		data->z_matrix[i] = (int *)malloc(sizeof(int) * (data->width + 1));
-		data->color_matrix[i] = (int *)ft_calloc(sizeof(int),
-				(data->width + 1));
+		data->z_matrix[i] = (int *)malloc(sizeof(int) * (data->width + 42));
+		data->color_matrix[i] = (int *)ft_calloc((data->width + 1),
+				sizeof(int) * 42);
 		if (!data->z_matrix[i] || !data->color_matrix[i])
 			return ;
 		i++;
