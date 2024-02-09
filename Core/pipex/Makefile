@@ -1,5 +1,5 @@
 NAME		:= pipex
-CFLAGS		:=-Wall -Wextra -Werror
+CFLAGS		:= #-Wall -Wextra -Werror
 CC 			:= gcc
 
 LIBFT_PATH	:= ./lib/libft/
@@ -9,7 +9,7 @@ LIBFT		:= $(LIBFT_PATH)$(LIBFT_NAME)
 INC_LIBFT	:= -I ./libft
 
 SRC_PATH	:= src/
-SRC			:=
+SRC			:= pipex.c
 SRCS		:= $(addprefix $(SRC_PATH), $(SRC))
 
 OBJ_PATH:= obj/

@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:25:51 by cgray             #+#    #+#             */
-/*   Updated: 2024/02/07 15:28:36 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/09 16:46:31 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@
 # include <sys/wait.h> //wait/waitpid
 # include <stdio.h> //perror
 # include <string.h> //strerror
-
-
+# include "../lib/libft/includes/libft.h"
 
 
 
