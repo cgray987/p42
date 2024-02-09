@@ -6,25 +6,27 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:48:44 by cgray             #+#    #+#             */
-/*   Updated: 2024/02/09 18:52:58 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/09 19:02:42 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 /* Search envp for PATH value
-return path to given command, freeing memory as it is used */
+return path to given command, freeing memory as it is used
+envp[i] = PATH=/nfs/homes/cgray/bin:/nfs/homes/cgray/bin...
+Finds first cmd_path that exists, 0/error if not found */
 char	*extract_path(char *cmd, char **envp)
 {
-	int	i;
+	int		i;
 	char	**paths_tab;
 	char	*add_slash;
 	char	*cmd_path;
 
 	i = 0;
-	while (ft_strnstr(envp[i], "PATH", 4) == 0) //envp[i] = PATH=/nfs/homes/cgray/bin:/nfs/homes/cgray/bin...
+	while (ft_strnstr(envp[i], "PATH", 4) == 0)
 		i++;
-	envp[i] += 5; //skip 'PATH='
+	envp[i] += 5;
 	paths_tab = ft_split(envp[i], ':');
 	i = 0;
 	while (paths_tab[i])
@@ -32,8 +34,8 @@ char	*extract_path(char *cmd, char **envp)
 		add_slash = ft_strjoin(paths_tab[i], "/");
 		cmd_path = ft_strjoin(add_slash, cmd);
 		free(add_slash);
-		if (access(cmd_path, F_OK) == 0) //checks that file exists, stops on first cmd_path that works
-			break ;
+		if (access(cmd_path, F_OK) == 0)
+			return (cmd_path);
 		free(cmd_path);
 		i++;
 	}
@@ -41,9 +43,7 @@ char	*extract_path(char *cmd, char **envp)
 	while (paths_tab[i])
 		free(paths_tab[i++]);
 	free(paths_tab);
-	if (!cmd_path)
-		return (0);
-	return (cmd_path);
+	return (0);
 }
 
 /* Split command
