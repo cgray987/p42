@@ -6,12 +6,13 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 12:05:29 by cgray             #+#    #+#             */
-/*   Updated: 2023/10/23 12:38:16 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/12 15:56:35 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 /* returns concat string of s1 + s2
+Must free return value later.
 */
 char	*ft_strjoin(char const *s1, char const *s2)
 {

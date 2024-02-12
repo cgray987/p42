@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:25:51 by cgray             #+#    #+#             */
-/*   Updated: 2024/02/09 16:46:31 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/12 17:54:36 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,13 @@
 # include <string.h> //strerror
 # include "../lib/libft/includes/libft.h"
 
-
-
+/* -----------------PIPEX.C-------------------------------- */
+void	parent_process(char **av, char **envp, int *p_fd);
+void	child_process(char **av, char **envp, int *p_fd);
+int		run_cmd(char *av, char **envp);
+/* -----------------UTILS.C-------------------------------- */
+char	*extract_path(char *cmd, char **envp);
+char	*path_format(char *path, char *cmd);
+void	error(char *error_message);
 
 #endif
