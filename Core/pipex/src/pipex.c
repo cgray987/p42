@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:48:44 by cgray             #+#    #+#             */
-/*   Updated: 2024/02/12 18:00:52 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/13 16:44:06 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ int	run_cmd(char *av, char **envp)
 		while (cmd[i])
 			free(cmd[i++]);
 		free(cmd);
-		perror("Path to command not found.\n");
-		return (-1);
+		error("Path to command not found.\n");
 	}
 	i = 0;
 	if (execve(path, cmd, envp) == -1)
@@ -41,8 +40,7 @@ int	run_cmd(char *av, char **envp)
 		while (cmd[i])
 			free(cmd[i++]);
 		free(cmd);
-		ft_printf("Error: %s\n", strerror(errno));
-
+		exit(EXIT_FAILURE);
 	}
 	return (0);
 }
@@ -67,7 +65,10 @@ void	child_process(char **av, char **envp, int *p_fd)
 	dup2(infile, STDIN_FILENO);
 	close(p_fd[0]);
 	if (run_cmd(av[2], envp) == -1)
+	{
+		// ft_printf("Error: %s\n", strerror(errno))
 		exit(EXIT_FAILURE);
+	}
 }
 
 /* parent process of fork
@@ -99,7 +100,7 @@ int	main(int ac, char **av, char **envp)
 	int		p_fd[2];
 	pid_t	pid1;
 
-	if (ac == 5)
+	if (ac >= 5)
 	{
 		if (pipe(p_fd) == -1)
 			error("pipe failed\n");

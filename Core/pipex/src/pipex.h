@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:25:51 by cgray             #+#    #+#             */
-/*   Updated: 2024/02/12 17:54:36 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/13 14:16:38 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@
 # include <sys/wait.h> //wait/waitpid
 # include <stdio.h> //perror
 # include <string.h> //strerror
+# include <errno.h> //errno
 # include "../lib/libft/includes/libft.h"
 
 /* -----------------PIPEX.C-------------------------------- */
