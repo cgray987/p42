@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:48:44 by cgray             #+#    #+#             */
-/*   Updated: 2024/02/13 16:44:06 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/14 15:53:08 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,7 @@ void	child_process(char **av, char **envp, int *p_fd)
 	dup2(infile, STDIN_FILENO);
 	close(p_fd[0]);
 	if (run_cmd(av[2], envp) == -1)
-	{
-		// ft_printf("Error: %s\n", strerror(errno))
 		exit(EXIT_FAILURE);
-	}
 }
 
 /* parent process of fork
@@ -100,7 +97,7 @@ int	main(int ac, char **av, char **envp)
 	int		p_fd[2];
 	pid_t	pid1;
 
-	if (ac >= 5)
+	if (ac == 5)
 	{
 		if (pipe(p_fd) == -1)
 			error("pipe failed\n");
@@ -119,5 +116,3 @@ int	main(int ac, char **av, char **envp)
 	}
 	return (0);
 }
-
-// ft_printf("\t./pipex 'here_doc' infile cmd1 cmd2 outfile\n");

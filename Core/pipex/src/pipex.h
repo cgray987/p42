@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:25:51 by cgray             #+#    #+#             */
-/*   Updated: 2024/02/13 14:16:38 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/14 18:57:16 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,7 @@ int		run_cmd(char *av, char **envp);
 char	*extract_path(char *cmd, char **envp);
 char	*path_format(char *path, char *cmd);
 void	error(char *error_message);
+
+int	get_next_line_terminal(char **line);
 
 #endif
