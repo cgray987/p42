@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:48:44 by cgray             #+#    #+#             */
-/*   Updated: 2024/02/15 16:33:49 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/15 16:43:12 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,9 @@ void	run_cmd(char *av, char **envp)
 }
 
 /* Child process that runs inside of fork.
-Creates input file,
 Takes the infile av[1], puts output to pipe p_fd[1]
 close pipe input
-execute av[2]
+execute av (cmd)
 */
 void	child_process_b(char *av, char **envp)
 {
@@ -75,7 +74,9 @@ void	child_process_b(char *av, char **envp)
 }
 
 /* function to mimic here_doc input to behave like
-cmd << LIMITER | cmd1 >> outfile */
+cmd << LIMITER | cmd1 >> outfile
+fork - child process closes input and accepts input from terminal
+goes until LIMITER is found in input*/
 void	here_doc(char *limiter, int ac)
 {
 	pid_t	pid;
@@ -116,7 +117,7 @@ int	open_flag(char *av, int i)
 
 	fd = 0;
 	if (i == 0)
-		fd = open(av, O_WRONLY | O_CREAT | O_APPEND, 0777);
+		fd = open(av, O_WRONLY | O_CREAT | O_APPEND, 0666);
 	if (i == 1)
 		fd = open(av, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (i == 2)
@@ -128,8 +129,8 @@ int	open_flag(char *av, int i)
 
 /* Main Function
 -checks arguments
--creates pipe and fork
--calls child and parent process after child process finishes */
+-if here_doc -> call here_doc handler
+else accept any number of cmd arguments*/
 int	main(int ac, char **av, char **envp)
 {
 	int		i;
