@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:25:51 by cgray             #+#    #+#             */
-/*   Updated: 2024/02/14 18:57:16 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/15 15:34:18 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,13 @@
 /* -----------------PIPEX.C-------------------------------- */
 void	parent_process(char **av, char **envp, int *p_fd);
 void	child_process(char **av, char **envp, int *p_fd);
-int		run_cmd(char *av, char **envp);
+void	run_cmd(char *av, char **envp);
 /* -----------------UTILS.C-------------------------------- */
 char	*extract_path(char *cmd, char **envp);
 char	*path_format(char *path, char *cmd);
 void	error(char *error_message);
-
-int	get_next_line_terminal(char **line);
+/* -----------------UTILS_B.C------------------------------ */
+int		get_next_line_terminal(char **line);
+void	arg_error(void);
 
 #endif

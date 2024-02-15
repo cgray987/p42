@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 16:05:09 by cgray             #+#    #+#             */
-/*   Updated: 2024/02/14 18:48:17 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/15 15:33:36 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,15 @@
 void	error(char *error_message)
 {
 	perror(error_message);
+	exit(EXIT_FAILURE);
+}
+
+void	arg_error(void)
+{
+	ft_printf("Bad Arguments.\t");
+	ft_printf("Expected format:\n");
+	ft_printf("\t ./pipex_bonus here_doc LIMITER cmd cmd1 outfile\nor:\n");
+	ft_printf("\t ./pipex_bonus infile cmd cmd1 ... cmd_N outfile\n");
 	exit(EXIT_FAILURE);
 }
 
@@ -63,29 +72,31 @@ char	*extract_path(char *cmd, char **envp)
 	return (0);
 }
 
+/* Function to read lines from terminal input */
 int	get_next_line_terminal(char **line)
 {
 	char	*buffer;
 	int		i;
 	int		bytes_read;
-	char	pos;
+	char	c;
 
-	buffer = (char *)malloc(1000);
+	bytes_read = 0;
+	i = 0;
+	buffer = (char *)malloc(10000);
 	if (!buffer)
 		return (-1);
-	bytes_read = read(0, &pos, 1);
+	bytes_read = read(0, &c, 1);
 	if (!bytes_read)
 		return (-1);
-	while (pos != '\n' && pos != '\0')
+	while (bytes_read > 0 && c != '\n' && c != '\0')
 	{
-		if (pos != '\n' && pos != '\0')
-			buffer[i] = pos;
+		if (c != '\n' && c != '\0')
+			buffer[i] = c;
 		i++;
-		bytes_read = read(0, &pos, 1);
+		bytes_read = read(0, &c, 1);
 	}
 	buffer[i] = '\n';
 	buffer[++i] = '\0';
 	*line = buffer;
-	free(buffer);
 	return (bytes_read);
 }

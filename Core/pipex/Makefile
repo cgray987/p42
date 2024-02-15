@@ -1,6 +1,6 @@
 NAME		:= pipex
 NAME_B		:= pipex_bonus
-CFLAGS		:= -Wall -Wextra -Werror
+CFLAGS		:= -Wall -Wextra -Werror -g
 CC 			:= gcc
 
 LIBFT_PATH	:= ./lib/libft/

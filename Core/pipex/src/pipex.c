@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:48:44 by cgray             #+#    #+#             */
-/*   Updated: 2024/02/14 15:53:08 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/15 15:30:55 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ find path to command line
 exec command and error check
 **cmd = commandd array (av[2] and av[3]) {ls, -l} {wc -l}
 *path = path to command program*/
-int	run_cmd(char *av, char **envp)
+void	run_cmd(char *av, char **envp)
 {
 	char	**cmd;
 	char	*path;
@@ -42,7 +42,6 @@ int	run_cmd(char *av, char **envp)
 		free(cmd);
 		exit(EXIT_FAILURE);
 	}
-	return (0);
 }
 
 /* Child process that runs inside of fork.
@@ -64,8 +63,7 @@ void	child_process(char **av, char **envp, int *p_fd)
 	dup2(p_fd[1], STDOUT_FILENO);
 	dup2(infile, STDIN_FILENO);
 	close(p_fd[0]);
-	if (run_cmd(av[2], envp) == -1)
-		exit(EXIT_FAILURE);
+	run_cmd(av[2], envp);
 }
 
 /* parent process of fork
@@ -84,8 +82,7 @@ void	parent_process(char **av, char **envp, int *p_fd)
 	dup2(p_fd[0], STDIN_FILENO);
 	dup2(outfile, STDOUT_FILENO);
 	close(p_fd[1]);
-	if (run_cmd(av[3], envp) == -1)
-		exit(EXIT_FAILURE);
+	run_cmd(av[3], envp);
 }
 
 /* Main Function

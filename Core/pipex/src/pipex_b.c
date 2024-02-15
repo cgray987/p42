@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:48:44 by cgray             #+#    #+#             */
-/*   Updated: 2024/02/14 18:57:42 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/15 15:36:20 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ find path to command line
 exec command and error check
 **cmd = commandd array (av[2] and av[3]) {ls, -l} {wc -l}
 *path = path to command program*/
-int	run_cmd(char *av, char **envp)
+void	run_cmd(char *av, char **envp)
 {
 	char	**cmd;
 	char	*path;
@@ -42,7 +42,6 @@ int	run_cmd(char *av, char **envp)
 		free(cmd);
 		exit(EXIT_FAILURE);
 	}
-	return (0);
 }
 
 /* Child process that runs inside of fork.
@@ -65,8 +64,7 @@ void	child_process_b(char *av, char **envp)
 	{
 		close(p_fd[0]);
 		dup2(p_fd[1], STDOUT_FILENO);
-		if (run_cmd(av, envp) == -1)
-			exit(EXIT_FAILURE);
+		run_cmd(av, envp);
 	}
 	else
 	{
@@ -76,17 +74,19 @@ void	child_process_b(char *av, char **envp)
 	}
 }
 
-void	here_doc(char *limiter)
+/* function to mimic here_doc input to behave like
+cmd << LIMITER | cmd1 >> outfile */
+void	here_doc(char *limiter, int ac)
 {
 	pid_t	pid;
 	int		p_fd[2];
 	char	*line;
 
+	if (ac < 6)
+		arg_error();
 	if (pipe(p_fd) == -1)
 		error("pipe failed.\n");
 	pid = fork();
-	if (pid == -1)
-		error("fork failed.\n");
 	if (pid == 0)
 	{
 		close(p_fd[0]);
@@ -116,7 +116,7 @@ int	open_flag(char *av, int i)
 
 	fd = 0;
 	if (i == 0)
-		fd = open(av, O_WRONLY | O_CREAT | O_APPEND, 0666);
+		fd = open(av, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	if (i == 1)
 		fd = open(av, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (i == 2)
@@ -140,11 +140,9 @@ int	main(int ac, char **av, char **envp)
 	{
 		if (ft_strncmp(av[1], "here_doc", 8) == 0)
 		{
-			if (ac < 6)
-				error("Bad arguments for here_doc.\n");
 			i = 3;
-			outfile = open_flag(av[2], 0);
-			here_doc(av[2]);
+			outfile = open_flag(av[ac - 1], 0);
+			here_doc(av[2], ac);
 		}
 		else
 		{
@@ -158,12 +156,5 @@ int	main(int ac, char **av, char **envp)
 		dup2(outfile, STDOUT_FILENO);
 		run_cmd(av[ac - 2], envp);
 	}
-	else
-	{
-		error("Error: bad arguments\n");
-		ft_printf("Expected format:\n./pipex infile cmd1 cmd2 outfile\n");
-	}
-	return (0);
+	arg_error();
 }
-
-// ft_printf("\t./pipex 'here_doc' infile cmd1 cmd2 outfile\n");
