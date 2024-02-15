@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 16:05:09 by cgray             #+#    #+#             */
-/*   Updated: 2024/02/15 15:33:36 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/15 16:31:20 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,6 @@ int	get_next_line_terminal(char **line)
 	buffer[i] = '\n';
 	buffer[++i] = '\0';
 	*line = buffer;
+	free(buffer);
 	return (bytes_read);
 }
