@@ -1,6 +1,6 @@
 NAME		:= pipex
 NAME_B		:= pipex_bonus
-CFLAGS		:= -Wall -Wextra -Werror -g
+CFLAGS		:= -Wall -Wextra -Werror
 CC 			:= gcc
 
 LIBFT_PATH	:= ./lib/libft/
@@ -49,9 +49,10 @@ $(NAME): $(OBJS)
 	@$(CC) $(OBJS) $(LIBFT) -o $(NAME)
 	@echo "$(BOLD)$(GREEN)[ $(NAME) ready! ]$(NC)"
 
-$(NAME_B): $(OBJS_B)
-
 bonus: libft $(NAME_B)
+
+$(OBJS_B): | $(OBJ_PATH)
+$(NAME_B): $(OBJS_B)
 	@echo "$(BOLD)$(BCYAN)[ Compiling $(NAME_B)... ]$(NC)"
 	@$(CC) $(OBJS_B) $(LIBFT) -o $(NAME_B)
 	@echo "$(BOLD)$(GREEN)[ $(NAME_B) ready! ]$(NC)"

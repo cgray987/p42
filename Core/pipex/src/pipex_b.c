@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:48:44 by cgray             #+#    #+#             */
-/*   Updated: 2024/02/15 16:43:12 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/16 12:48:21 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,14 @@ void	run_cmd(char *av, char **envp)
 	}
 }
 
-/* Child process that runs inside of fork.
-Takes the infile av[1], puts output to pipe p_fd[1]
+/* Child process that forks output.
+fork - child takes av (cmd) puts
+output to pipe p_fd[1]
 close pipe input
 execute av (cmd)
+parent closes pipe output and sets pipe input to STDIN
 */
-void	child_process_b(char *av, char **envp)
+void	fork_cmd(char *av, char **envp)
 {
 	int		p_fd[2];
 	pid_t	pid;
@@ -130,7 +132,8 @@ int	open_flag(char *av, int i)
 /* Main Function
 -checks arguments
 -if here_doc -> call here_doc handler
-else accept any number of cmd arguments*/
+else switch STDIN, accept any number of cmd arguments,
+splitting each cmd into a child process*/
 int	main(int ac, char **av, char **envp)
 {
 	int		i;
@@ -153,7 +156,7 @@ int	main(int ac, char **av, char **envp)
 			dup2(infile, STDIN_FILENO);
 		}
 		while (i < ac - 2)
-			child_process_b(av[i++], envp);
+			fork_cmd(av[i++], envp);
 		dup2(outfile, STDOUT_FILENO);
 		run_cmd(av[ac - 2], envp);
 	}

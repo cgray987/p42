@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:25:51 by cgray             #+#    #+#             */
-/*   Updated: 2024/02/15 15:34:18 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/16 12:50:44 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,11 @@ void	run_cmd(char *av, char **envp);
 char	*extract_path(char *cmd, char **envp);
 char	*path_format(char *path, char *cmd);
 void	error(char *error_message);
+/* -----------------PIPEX_B.C------------------------------ */
+void	run_cmd(char *av, char **envp);
+void	fork_cmd(char *av, char **envp);
+void	here_doc(char *limiter, int ac);
+int		open_flag(char *av, int i);
 /* -----------------UTILS_B.C------------------------------ */
 int		get_next_line_terminal(char **line);
 void	arg_error(void);
