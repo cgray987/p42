@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:42:17 by cgray             #+#    #+#             */
-/*   Updated: 2024/02/16 13:52:04 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/19 14:24:27 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	swap(t_stack **stack)
 {
 	int	temp;
 
-	temp = *stack->number;
+	temp = (*stack)->number;
 	(*stack)->number = ((*stack)->next)->number;
 	((*stack)->next)->number = temp;
 }

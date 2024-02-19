@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:31:54 by cgray             #+#    #+#             */
-/*   Updated: 2024/02/16 17:13:08 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/19 14:22:58 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,21 @@ void	rev_rotate(t_stack **stack)
 /* reverse rotate stack a */
 void	rra(t_stack **a)
 {
-	rev_rotate(*a);
+	rev_rotate(a);
 	ft_printf("rra\n");
 }
 
 /* reverse rotate stack b */
 void	rrb(t_stack **b)
 {
-	rev_rotate(*b);
+	rev_rotate(b);
 	ft_printf("rrb\n");
 }
 
 /* reverse rotate stack a and b */
 void	rrr(t_stack **a, t_stack **b)
 {
-	rev_rotate(*a);
-	rev_rotate(*b);
+	rev_rotate(a);
+	rev_rotate(b);
 	ft_printf("rrr\n");
 }
