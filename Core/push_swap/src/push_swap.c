@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:22:52 by cgray             #+#    #+#             */
-/*   Updated: 2024/02/21 15:08:33 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/27 14:14:03 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_stack	*enter_stack(int *array)
 	i = 0;
 	stack = NULL;
 	while (array[i])
-		stack_add_back(&stack, stack_new(array[i++]));
+		stack_add_back(&stack, array[i++]);
 	return (stack);
 }
 
@@ -77,8 +77,8 @@ int	main(int ac, char **av)
 		two_num_sort(&a);
 	else if (stack_len(a) == 3)
 		three_num_sort(&a);
-	// else
-	// 	turk_algorithm(&a, &b);
+	else
+		turk_algorithm(&a, &b);
 	if (stack_sorted(a))
 		ft_printf("stack sorted\n");
 	while (a)

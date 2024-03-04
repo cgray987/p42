@@ -1,5 +1,4 @@
 NAME		:= push_swap
-# NAME_B		:= pipex_bonus
 CFLAGS		:= -Wall -Wextra -Werror -g
 CC 			:= gcc
 
@@ -10,7 +9,7 @@ LIBFT		:= $(LIBFT_PATH)$(LIBFT_NAME)
 INC_LIBFT	:= -I ./libft
 
 SRC_PATH	:= src/
-SRC			:= argument_checks.c push_swap.c push.c rev_rotate.c rotate.c small_cases.c stack_utils.c stack_utils2.c swap.c
+SRC			:= argument_checks.c get_stack_values_a.c get_stack_values_b.c push_swap.c push.c rev_rotate.c rotate.c small_cases.c stack_utils.c stack_utils2.c swap.c turk_algorithm.c
 SRCS		:= $(addprefix $(SRC_PATH), $(SRC))
 
 OBJ_PATH:= obj/

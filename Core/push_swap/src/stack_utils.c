@@ -6,26 +6,36 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:04:47 by cgray             #+#    #+#             */
-/*   Updated: 2024/02/19 16:24:55 by cgray            ###   ########.fr       */
+/*   Updated: 2024/02/27 14:12:28 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 /*Adds the node 'new' at the end of the list 'stack'*/
-void	stack_add_back(t_stack **stack, t_stack *new)
+void	stack_add_back(t_stack **stack, int nbr)
 {
-	t_stack	*temp;
+	t_stack	*node;
+	t_stack	*last_node;
 
-	if (!new)
+	if (!stack)
 		return ;
+	node = malloc(sizeof(t_stack));
+	if (!node)
+		return ;
+	node->next = NULL;
+	node->number = nbr;
 	if (!*stack)
 	{
-		*stack = new;
+		*stack = node;
 		return ;
 	}
-	temp = last_stack(*stack);
-	temp->next = new;
+	else
+	{
+		last_node = last_stack(*stack);
+		last_node->next = node;
+		node->prev = last_node;
+	}
 }
 
 /* goes to last node in stack */
