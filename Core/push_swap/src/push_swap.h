@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:22:37 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/04 14:20:51 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/04 15:35:57 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../lib/libft/includes/libft.h"
 # include <limits.h> // for INT_MAX and INT_MIN
+# include <stdio.h>
 
 /*
 	-number:		the number itself in stack

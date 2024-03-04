@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 14:47:30 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/04 14:26:14 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/04 17:58:41 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_stack	*find_cheapest(t_stack *stack)
 
 void	move_b(t_stack **a, t_stack **b)
 {
-	prep_push(a, (*b)->target_node, 'b');
+	prep_push(a, (*b)->target_node, 'a');
 	pa(a, b);
 }
 
@@ -67,12 +67,12 @@ void	move_cheapest_a(t_stack **a, t_stack **b)
 	if (cheapest->above_median == 1 &&
 		cheapest->target_node->above_median == 1)
 		rotate_index(a, b, cheapest, 0);
-	else
+	else if (cheapest->above_median == 0 &&
+		cheapest->target_node->above_median == 0)
 		rotate_index(a, b, cheapest, 1);
 	prep_push(a, cheapest, 'a');
 	prep_push(b, cheapest->target_node, 'b');
-	pb(a, b);
-
+	pb(b, a);
 }
 
 void	turk_algorithm(t_stack **a, t_stack **b)
@@ -81,15 +81,19 @@ void	turk_algorithm(t_stack **a, t_stack **b)
 
 	len_a = stack_len(*a);
 	if (len_a-- > 3 && !stack_sorted(*a))
-		pb(a, b);
+		pb(b, a);
 	if (len_a-- > 3 && !stack_sorted(*a))
-		pb(a, b);
+		pb(b, a);
 	while (len_a-- > 3 && !stack_sorted(*a))
 	{
 		init_a(*a, *b);
 		move_cheapest_a(a, b);
 	}
 	three_num_sort(a);
+	while (*a)
+	{
+		ft_printf("")
+	}
 	while(*b)
 	{
 		init_b(*a, *b);

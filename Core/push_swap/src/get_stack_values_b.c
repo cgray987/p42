@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:33:23 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/04 14:10:28 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/04 17:55:13 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	get_target_b(t_stack *a, t_stack *b)
 
 	while (b)
 	{
-		best_match = INT_MIN;
+		best_match = INT_MAX;
 		current_a = a;
 		while (current_a)
 		{
@@ -32,7 +32,7 @@ void	get_target_b(t_stack *a, t_stack *b)
 			}
 			current_a = current_a->next;
 		}
-		if (best_match == INT_MIN)
+		if (best_match == INT_MAX)
 			b->target_node = stack_min(a);
 		else
 			b->target_node = target;

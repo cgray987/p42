@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_stack_values.c                                 :+:      :+:    :+:   */
+/*   get_stack_values_a.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:15:51 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/04 13:48:55 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/04 17:57:35 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	get_index(t_stack *stack)
 		else
 			stack->above_median = 0;
 		stack = stack->next;
-		i++;
+		++i;
 	}
 }
 
@@ -50,8 +50,7 @@ void	get_cost(t_stack *a, t_stack *b)
 		a->cost = a->index;
 		if (!a->above_median)
 			a->cost = len_a - (a->index);
-		a = a->next;
-		if (a->target_node->above_median)
+		if (a->target_node->above_median == 1)
 			a->cost += a->target_node->index;
 		else
 			a->cost += len_b - (a->target_node->index);
@@ -113,7 +112,7 @@ void	init_a(t_stack *a, t_stack *b)
 {
 	get_index(a);
 	get_index(b);
-	get_cost(a, b);
 	get_target_a(a, b);
+	get_cost(a, b);
 	get_cheapest(a);
 }

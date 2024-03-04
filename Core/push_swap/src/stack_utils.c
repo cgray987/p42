@@ -6,13 +6,13 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:04:47 by cgray             #+#    #+#             */
-/*   Updated: 2024/02/27 14:12:28 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/04 16:52:40 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/*Adds the node 'new' at the end of the list 'stack'*/
+/*Adds the node at the end of the list 'stack'*/
 void	stack_add_back(t_stack **stack, int nbr)
 {
 	t_stack	*node;
@@ -25,9 +25,10 @@ void	stack_add_back(t_stack **stack, int nbr)
 		return ;
 	node->next = NULL;
 	node->number = nbr;
-	if (!*stack)
+	if (!(*stack))
 	{
 		*stack = node;
+		node->prev = NULL;
 		return ;
 	}
 	else
@@ -41,6 +42,8 @@ void	stack_add_back(t_stack **stack, int nbr)
 /* goes to last node in stack */
 t_stack	*last_stack(t_stack *stack)
 {
+	if (!stack)
+		return (NULL);
 	while (stack->next)
 		stack = stack->next;
 	return (stack);
@@ -82,8 +85,13 @@ int	stack_sorted(t_stack *stack)
 {
 	int	temp;
 
+	if (!stack)
+	{
+		printf("no stack\n");
+		return (0);
+	}
 	temp = stack->number;
-	while (stack)
+	while (stack->next)
 	{
 		if (temp > stack->number)
 			return (0);

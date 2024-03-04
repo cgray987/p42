@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 14:42:04 by cgray             #+#    #+#             */
-/*   Updated: 2024/02/21 14:46:29 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/04 17:10:20 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,11 @@ int	*one_argument(char **av)
 			error_bad_args();
 		num_array[i] = ft_atoi(str_nums[i]);
 		free(str_nums[i]);
+		printf("i:%d - %d\n", i, num_array[i]);
 		i++;
 	}
 	num_array[i] = '\0';
-	free(str_nums);
+	// free(str_nums);
 	return (num_array);
 }
 
