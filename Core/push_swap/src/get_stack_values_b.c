@@ -6,12 +6,13 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:33:23 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/04 17:55:13 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/05 17:59:10 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+/* sets target a for b to push into */
 void	get_target_b(t_stack *a, t_stack *b)
 {
 	t_stack	*current_a;
@@ -28,7 +29,7 @@ void	get_target_b(t_stack *a, t_stack *b)
 				&& current_a->number < best_match)
 			{
 				best_match = current_a->number;
-				target = current_a->target_node;
+				target = current_a;
 			}
 			current_a = current_a->next;
 		}
@@ -40,6 +41,7 @@ void	get_target_b(t_stack *a, t_stack *b)
 	}
 }
 
+/* prepares nodes and sets variables in t_stack */
 void	init_b(t_stack *a, t_stack *b)
 {
 	get_index(a);

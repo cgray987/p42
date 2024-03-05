@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:15:51 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/04 17:57:35 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/05 18:02:19 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	get_cost(t_stack *a, t_stack *b)
 
 	len_a = stack_len(a);
 	len_b = stack_len(b);
-
 	while (a)
 	{
 		a->cost = a->index;

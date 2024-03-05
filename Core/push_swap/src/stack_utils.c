@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:04:47 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/04 16:52:40 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/05 18:03:53 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	stack_add_back(t_stack **stack, int nbr)
 		return ;
 	node->next = NULL;
 	node->number = nbr;
+	node->cheapest = 0;
 	if (!(*stack))
 	{
 		*stack = node;
@@ -86,10 +87,7 @@ int	stack_sorted(t_stack *stack)
 	int	temp;
 
 	if (!stack)
-	{
-		printf("no stack\n");
 		return (0);
-	}
 	temp = stack->number;
 	while (stack->next)
 	{
@@ -100,4 +98,3 @@ int	stack_sorted(t_stack *stack)
 	}
 	return (1);
 }
-

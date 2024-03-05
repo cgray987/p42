@@ -6,12 +6,13 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:45:52 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/04 16:00:05 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/05 13:51:19 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+/* moves smallest number to top of stack */
 void	put_min_on_top(t_stack **a)
 {
 	while ((*a)->number != stack_min(*a)->number)
@@ -23,6 +24,7 @@ void	put_min_on_top(t_stack **a)
 	}
 }
 
+/* moves target node to top of stack*/
 void	prep_push(t_stack **stack, t_stack *top, char a_or_b)
 {
 	while (*stack != top)
@@ -63,9 +65,11 @@ int	stack_len(t_stack *stack)
 /* returns minimum number found in stack */
 t_stack	*stack_min(t_stack *stack)
 {
-	int	min;
+	int		min;
 	t_stack	*min_node;
 
+	if (!stack)
+		return (NULL);
 	min = INT_MAX;
 	while (stack)
 	{
@@ -85,6 +89,8 @@ t_stack	*stack_max(t_stack *stack)
 	int		max;
 	t_stack	*max_node;
 
+	if (!stack)
+		return (NULL);
 	max = INT_MIN;
 	while (stack)
 	{

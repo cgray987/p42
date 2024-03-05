@@ -6,11 +6,21 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 17:12:20 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/04 16:57:39 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/05 17:47:05 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+int	array_len(int *array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i])
+		i++;
+	return (i);
+}
 
 /* sort stack with two numbers (one rotation) */
 void	two_num_sort(t_stack **a)

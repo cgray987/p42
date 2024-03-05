@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:22:37 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/04 15:35:57 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/05 18:03:22 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "../lib/libft/includes/libft.h"
 # include <limits.h> // for INT_MAX and INT_MIN
-# include <stdio.h>
 
 /*
 	-number:		the number itself in stack
@@ -38,11 +37,11 @@ typedef struct stack
 	struct stack	*prev;
 }				t_stack;
 
-
 /* |---------------argument_checks.c-------------------| */
-void	error_bad_args(void);
+void	error_bad_args(char **str_nums, int i);
+void	error_duplicate(int *num_array);
 int		*one_argument(char **av);
-int		duplicate_check(int *num_array);
+int		duplicate_check(int *num_array, int size);
 int		valid_ps_int(char *str);
 /* |---------------get_stack_values_a.c----------------| */
 void	get_index(t_stack *stack);
@@ -70,6 +69,7 @@ void	rr(t_stack **a, t_stack **b);
 /* |--------------------small_cases.c-------------------| */
 void	two_num_sort(t_stack **a);
 void	three_num_sort(t_stack **a);
+int		array_len(int *array);
 /* |--------------------stack_utils.c-------------------| */
 void	stack_add_back(t_stack **stack, int nbr);
 t_stack	*last_stack(t_stack *stack);

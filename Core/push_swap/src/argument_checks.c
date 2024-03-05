@@ -6,15 +6,28 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 14:42:04 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/04 17:10:20 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/05 18:44:06 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/* prints error and exits program */
-void	error_bad_args(void)
+/* prints error and exits program
+frees rest of **str_nums*/
+void	error_bad_args(char **str_nums, int i)
 {
+	while (str_nums[i])
+	{
+		free(str_nums[i++]);
+	}
+	free(str_nums);
+	ft_printf("Error\n");
+	exit(EXIT_FAILURE);
+}
+
+void	error_duplicate(int *num_array)
+{
+	free(num_array);
 	ft_printf("Error\n");
 	exit(EXIT_FAILURE);
 }
@@ -25,32 +38,43 @@ int	*one_argument(char **av)
 	char	**str_nums;
 	int		*num_array;
 	int		i;
+	int		size;
 
 	i = 0;
-	num_array = malloc(ft_count_words(av[1], ' ') * sizeof(int));
+	size = ft_count_words(av[1], ' ');
+	num_array = malloc(size * sizeof(int));
+	if (!num_array)
+		return (NULL);
 	str_nums = ft_split(av[1], ' ');
 	while (str_nums[i])
 	{
 		if (valid_ps_int(str_nums[i]))
-			error_bad_args();
+		{
+			free(num_array);
+			error_bad_args(str_nums, i);
+		}
 		num_array[i] = ft_atoi(str_nums[i]);
 		free(str_nums[i]);
-		printf("i:%d - %d\n", i, num_array[i]);
 		i++;
 	}
-	num_array[i] = '\0';
-	// free(str_nums);
+	free(str_nums);
+	num_array[i - 1] = '\0';
+	if (duplicate_check(num_array, size))
+		error_duplicate(num_array);
 	return (num_array);
 }
 
 /* iterates thru array, returning 1 if duplicate found */
-int	duplicate_check(int *num_array)
+int	duplicate_check(int *num_array, int size)
 {
 	int	i;
 	int	temp;
 
+	if (!num_array || size < 2)
+		return (1);
 	i = 0;
-	while (num_array[i + 1])
+	temp = 0;
+	while (i < size - 1)
 	{
 		temp = num_array[i];
 		if (temp == num_array[i + 1])
