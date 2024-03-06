@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:04:47 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/05 18:03:53 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/06 17:07:25 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	stack_sorted(t_stack *stack)
 	if (!stack)
 		return (0);
 	temp = stack->number;
-	while (stack->next)
+	while (stack)
 	{
 		if (temp > stack->number)
 			return (0);

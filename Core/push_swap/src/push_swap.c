@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:22:52 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/06 15:51:26 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/06 17:08:53 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	*get_nums(int ac, char **av)
 
 	if (ac == 2)
 		num_array = one_argument(av);
-	else if (ac > 2)
+	else
 	{
 		i = 0;
 		num_array = malloc(sizeof(int) * (ac - 1) + 4);
@@ -81,10 +81,10 @@ int	main(int ac, char **av)
 	t_stack	*b;
 	int		*num_array;
 
-	a = NULL;
-	b = NULL;
-	if (ac > 1)
+	if (ac > 2)
 	{
+		a = NULL;
+		b = NULL;
 		num_array = get_nums(ac, av);
 		if (ac > 2)
 			enter_stack(&a, num_array, ac - 1);
@@ -99,7 +99,6 @@ int	main(int ac, char **av)
 		free(num_array);
 		free_stack(&a);
 		free_stack(&b);
+
 	}
-	else
-		ft_printf("Error\n");
 }

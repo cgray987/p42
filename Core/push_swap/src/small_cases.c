@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 17:12:20 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/06 15:55:53 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/06 16:54:07 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	array_len(int *array)
 /* sort stack with two numbers (one rotation) */
 void	two_num_sort(t_stack **a)
 {
-	if (!stack_sorted(*a))
+	if (stack_sorted(*a))
 		return ;
 	ra(a);
 }
