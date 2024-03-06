@@ -1,5 +1,5 @@
 NAME		:= push_swap
-CFLAGS		:= -Wall -Wextra -Werror -g
+CFLAGS		:= -Wall -Wextra -Werror
 CC 			:= gcc
 
 LIBFT_PATH	:= ./lib/libft/
@@ -9,17 +9,15 @@ LIBFT		:= $(LIBFT_PATH)$(LIBFT_NAME)
 INC_LIBFT	:= -I ./libft
 
 SRC_PATH	:= src/
-SRC			:= argument_checks.c get_stack_values_a.c get_stack_values_b.c push_swap.c push.c rev_rotate.c rotate.c small_cases.c stack_utils.c stack_utils2.c swap.c turk_algorithm.c
+SRC			:= argument_checks.c error.c get_stack_values_a.c \
+				get_stack_values_b.c push_swap.c push.c rev_rotate.c \
+				rotate.c small_cases.c stack_utils.c stack_utils2.c \
+				swap.c turk_algorithm.c
 SRCS		:= $(addprefix $(SRC_PATH), $(SRC))
 
 OBJ_PATH:= obj/
 OBJ			:= ${SRC:.c=.o}
 OBJS		:= $(addprefix $(OBJ_PATH), $(OBJ))
-
-# SRC_B		:= pipex_b.c utils_b.c
-# SRCS_B		:= $(addprefix $(SRC_PATH), $(SRC_B))
-# OBJ_B		:= ${SRC_B:.c=.o}
-# OBJS_B		:= $(addprefix $(OBJ_PATH), $(OBJ_B))
 
 BOLD =	\033[1m
 GREEN =	\033[32m
@@ -47,14 +45,6 @@ $(NAME): $(OBJS)
 	@echo "$(BOLD)$(BCYAN)[ Compiling $(NAME)... ]$(NC)"
 	@$(CC) $(OBJS) $(LIBFT) -o $(NAME)
 	@echo "$(BOLD)$(GREEN)[ $(NAME) ready! ]$(NC)"
-
-# bonus: libft $(NAME_B)
-
-# $(OBJS_B): | $(OBJ_PATH)
-# $(NAME_B): $(OBJS_B)
-# 	@echo "$(BOLD)$(BCYAN)[ Compiling $(NAME_B)... ]$(NC)"
-# 	@$(CC) $(OBJS_B) $(LIBFT) -o $(NAME_B)
-# 	@echo "$(BOLD)$(GREEN)[ $(NAME_B) ready! ]$(NC)"
 
 clean:
 	@rm -Rf $(OBJ_PATH)

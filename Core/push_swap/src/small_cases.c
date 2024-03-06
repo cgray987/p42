@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 17:12:20 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/05 17:47:05 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/06 15:55:53 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,20 @@ int	array_len(int *array)
 	int	i;
 
 	i = 0;
-	while (array[i])
+	while (*array)
+	{
+		array++;
 		i++;
+	}
 	return (i);
 }
 
 /* sort stack with two numbers (one rotation) */
 void	two_num_sort(t_stack **a)
 {
-	if (stack_sorted(*a))
+	if (!stack_sorted(*a))
 		return ;
-	else
-		ra(a);
+	ra(a);
 }
 
 /* simple alg for three numbers

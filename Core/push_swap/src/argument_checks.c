@@ -6,31 +6,11 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 14:42:04 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/06 13:02:25 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/06 13:45:16 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-/* prints error and exits program
-frees rest of **str_nums*/
-void	error_bad_args(char **str_nums, int i)
-{
-	while (str_nums[i])
-	{
-		free(str_nums[i++]);
-	}
-	free(str_nums);
-	ft_printf("Error\n");
-	exit(EXIT_FAILURE);
-}
-
-void	error_duplicate(int *num_array)
-{
-	free(num_array);
-	ft_printf("Error\n");
-	exit(EXIT_FAILURE);
-}
 
 /* case that av is entered as one string */
 int	*one_argument(char **av)
@@ -47,11 +27,10 @@ int	*one_argument(char **av)
 	while (str_nums[i])
 	{
 		if (valid_ps_int(str_nums[i]))
-		{
-			free(num_array);
-			error_bad_args(str_nums, i);
-		}
+			error_one_arg(str_nums, i, num_array);
 		num_array[i] = ft_atoi(str_nums[i]);
+		if (num_array[i] >= INT_MAX || num_array[i] <= INT_MIN)
+			error_bad_args(str_nums, i);
 		free(str_nums[i]);
 		i++;
 	}

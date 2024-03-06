@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:22:52 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/06 13:00:28 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/06 15:51:26 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ void	free_stack(t_stack **stack)
 }
 
 /* takes int array and places into stack */
-void	enter_stack(t_stack **stack, int *array)
+void	enter_stack(t_stack **stack, int *array, int size)
 {
 	int		i;
 
 	i = 0;
 	if (!array)
 		return ;
-	while (array[i])
+	while (i < size)
 	{
 		stack_add_back(stack, array[i]);
 		i++;
@@ -65,9 +65,10 @@ int	*get_nums(int ac, char **av)
 			if (valid_ps_int(av[i + 1]))
 				error_duplicate(num_array);
 			num_array[i] = ft_atoi(av[i + 1]);
+			if (num_array[i] >= INT_MAX || num_array[i] <= INT_MIN)
+				error_int();
 			i++;
 		}
-		num_array[i - 1] = '\0';
 	}
 	if (duplicate_check(num_array, ac - 1) && ac > 2)
 		error_duplicate(num_array);
@@ -79,22 +80,26 @@ int	main(int ac, char **av)
 	t_stack	*a;
 	t_stack	*b;
 	int		*num_array;
-	int		stack_size;
 
 	a = NULL;
 	b = NULL;
-	num_array = get_nums(ac, av);
-	enter_stack(&a, num_array);
-	stack_size = stack_len(a);
-	if (stack_size == 2)
-		two_num_sort(&a);
-	else if (stack_size == 3)
-		three_num_sort(&a);
-	else if (stack_size > 3)
-		turk_algorithm(&a, &b);
-	free(num_array);
-	free_stack(&a);
-	free_stack(&b);
+	if (ac > 1)
+	{
+		num_array = get_nums(ac, av);
+		if (ac > 2)
+			enter_stack(&a, num_array, ac - 1);
+		else
+			enter_stack(&a, num_array, ft_count_words(av[1], ' '));
+		if (stack_len(a) == 2)
+			two_num_sort(&a);
+		else if (stack_len(a) == 3)
+			three_num_sort(&a);
+		else if (stack_len(a) > 3)
+			turk_algorithm(&a, &b);
+		free(num_array);
+		free_stack(&a);
+		free_stack(&b);
+	}
+	else
+		ft_printf("Error\n");
 }
-
-/**/

@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:22:37 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/05 18:03:22 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/06 13:45:23 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ void	error_duplicate(int *num_array);
 int		*one_argument(char **av);
 int		duplicate_check(int *num_array, int size);
 int		valid_ps_int(char *str);
+/* |---------------argument_checks.c-------------------| */
+void	error_int(void);
+void	error_bad_args(char **str_nums, int i);
+void	error_duplicate(int *num_array);
+void	error_one_arg(char **str_nums, int i, int *num_array);
 /* |---------------get_stack_values_a.c----------------| */
 void	get_index(t_stack *stack);
 void	get_cost(t_stack *a, t_stack *b);
