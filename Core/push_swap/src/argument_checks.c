@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 14:42:04 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/05 18:44:06 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/06 13:02:25 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,9 @@ int	*one_argument(char **av)
 	char	**str_nums;
 	int		*num_array;
 	int		i;
-	int		size;
 
 	i = 0;
-	size = ft_count_words(av[1], ' ');
-	num_array = malloc(size * sizeof(int));
+	num_array = malloc(ft_count_words(av[1], ' ') * sizeof(int) + 4);
 	if (!num_array)
 		return (NULL);
 	str_nums = ft_split(av[1], ' ');
@@ -58,8 +56,8 @@ int	*one_argument(char **av)
 		i++;
 	}
 	free(str_nums);
-	num_array[i - 1] = '\0';
-	if (duplicate_check(num_array, size))
+	num_array[i] = '\0';
+	if (duplicate_check(num_array, ft_count_words(av[1], ' ')))
 		error_duplicate(num_array);
 	return (num_array);
 }
@@ -68,18 +66,24 @@ int	*one_argument(char **av)
 int	duplicate_check(int *num_array, int size)
 {
 	int	i;
-	int	temp;
+	int	j;
+	int	*temp;
 
-	if (!num_array || size < 2)
-		return (1);
+	temp = num_array;
 	i = 0;
-	temp = 0;
+	j = 1;
+	if (size < 2)
+		return (1);
 	while (i < size - 1)
 	{
-		temp = num_array[i];
-		if (temp == num_array[i + 1])
-			return (1);
+		while (j < size)
+		{
+			if (num_array[i] == temp[j])
+				return (1);
+			j++;
+		}
 		i++;
+		j = i + 1;
 	}
 	return (0);
 }

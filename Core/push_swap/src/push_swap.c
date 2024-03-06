@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:22:52 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/05 18:42:06 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/06 13:00:28 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	*get_nums(int ac, char **av)
 	else if (ac > 2)
 	{
 		i = 0;
-		num_array = malloc(sizeof(int) * (ac - 1));
+		num_array = malloc(sizeof(int) * (ac - 1) + 4);
 		if (!num_array)
 			return (NULL);
 		while (av[i + 1])
@@ -69,8 +69,8 @@ int	*get_nums(int ac, char **av)
 		}
 		num_array[i - 1] = '\0';
 	}
-	if (duplicate_check(num_array, ac - 1))
-		ft_printf("dup error?"); //error_duplicate(num_array);
+	if (duplicate_check(num_array, ac - 1) && ac > 2)
+		error_duplicate(num_array);
 	return (num_array);
 }
 
@@ -79,18 +79,18 @@ int	main(int ac, char **av)
 	t_stack	*a;
 	t_stack	*b;
 	int		*num_array;
+	int		stack_size;
 
 	a = NULL;
 	b = NULL;
 	num_array = get_nums(ac, av);
-	if (!num_array)
-		return (1);
 	enter_stack(&a, num_array);
-	if (stack_len(a) == 2)
+	stack_size = stack_len(a);
+	if (stack_size == 2)
 		two_num_sort(&a);
-	else if (stack_len(a) == 3)
+	else if (stack_size == 3)
 		three_num_sort(&a);
-	else if (stack_len(a) > 3)
+	else if (stack_size > 3)
 		turk_algorithm(&a, &b);
 	free(num_array);
 	free_stack(&a);
