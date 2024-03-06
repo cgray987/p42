@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:22:52 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/06 17:08:53 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/06 17:12:08 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,5 @@ int	main(int ac, char **av)
 		free(num_array);
 		free_stack(&a);
 		free_stack(&b);
-
 	}
 }
