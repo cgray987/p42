@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 13:34:04 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/06 13:43:00 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/07 13:46:33 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,18 @@
 that can handle all error cases, instead I'm lazy and had space for extra
 functions, but not extra lines in the functions which call them ¯\_(ツ)_/¯ */
 
-void	error_int(void)
+/* if temp doesn't fit inside int return error, otherwise return int */
+int	error_int(long temp)
 {
-	ft_printf("Error\n");
-	exit(EXIT_FAILURE);
+	if (temp > INT_MAX || temp < INT_MIN)
+	{
+		ft_printf("Error\n");
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		return ((int)temp);
+	}
 }
 
 /* prints error and exits program

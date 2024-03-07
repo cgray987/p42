@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 14:42:04 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/06 13:45:16 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/07 13:56:01 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	*one_argument(char **av)
 	char	**str_nums;
 	int		*num_array;
 	int		i;
+	long	temp;
 
 	i = 0;
 	num_array = malloc(ft_count_words(av[1], ' ') * sizeof(int) + 4);
@@ -28,9 +29,8 @@ int	*one_argument(char **av)
 	{
 		if (valid_ps_int(str_nums[i]))
 			error_one_arg(str_nums, i, num_array);
-		num_array[i] = ft_atoi(str_nums[i]);
-		if (num_array[i] >= INT_MAX || num_array[i] <= INT_MIN)
-			error_bad_args(str_nums, i);
+		temp = ft_atol(str_nums[i]);
+		num_array[i] = error_int(temp);
 		free(str_nums[i]);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: cgray <cgray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:22:52 by cgray             #+#    #+#             */
-/*   Updated: 2024/03/06 17:12:08 by cgray            ###   ########.fr       */
+/*   Updated: 2024/03/07 13:52:19 by cgray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,9 @@ void	enter_stack(t_stack **stack, int *array, int size)
 /* puts numbers into int array from arguments */
 int	*get_nums(int ac, char **av)
 {
-	int	*num_array;
-	int	i;
+	int		*num_array;
+	int		i;
+	long	temp;
 
 	if (ac == 2)
 		num_array = one_argument(av);
@@ -64,9 +65,8 @@ int	*get_nums(int ac, char **av)
 		{
 			if (valid_ps_int(av[i + 1]))
 				error_duplicate(num_array);
-			num_array[i] = ft_atoi(av[i + 1]);
-			if (num_array[i] >= INT_MAX || num_array[i] <= INT_MIN)
-				error_int();
+			temp = ft_atol(av[i + 1]);
+			num_array[i] = error_int(temp);
 			i++;
 		}
 	}
@@ -81,7 +81,7 @@ int	main(int ac, char **av)
 	t_stack	*b;
 	int		*num_array;
 
-	if (ac > 2)
+	if (ac >= 2)
 	{
 		a = NULL;
 		b = NULL;

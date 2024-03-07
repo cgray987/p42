@@ -1,5 +1,5 @@
 NAME		:= push_swap
-CFLAGS		:= -Wall -Wextra -Werror
+CFLAGS		:= -Wall -Wextra -Werror -g
 CC 			:= cc
 
 LIBFT_PATH	:= ./lib/libft/
